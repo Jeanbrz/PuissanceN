@@ -69,16 +69,10 @@ void nouvelle_partie(){
         scanf("%s", &nbrjettons);
         test= isNumeric(nbrjettons);
     }
-    init_donnees(atoi(nbrjettons));
-    displayGrid(atoi(nbrjettons));
+ 
 }
 
-void displayGrid() {
 
-    int Width = getCellWidth()  
-
-
-}
 
 int getCellWidth(int N){
 
