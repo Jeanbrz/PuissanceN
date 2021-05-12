@@ -1,0 +1,70 @@
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/jeanb/CLionProjects/PuissanceN/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe cmTC_dfb48/fast && mingw32-make.exe: *** No rule to make target 'cmTC_dfb48/fast'.  Stop.
+
+
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/jeanb/CLionProjects/PuissanceN/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe cmTC_b2e03/fast && C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_b2e03.dir\build.make CMakeFiles/cmTC_b2e03.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/jeanb/CLionProjects/PuissanceN/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b2e03.dir/CMakeCCompilerABI.c.obj
+C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe   -v -o CMakeFiles\cmTC_b2e03.dir\CMakeCCompilerABI.c.obj -c "C:\Program Files\JetBrains\CLion 2020.3.2\bin\cmake\win\share\cmake-3.19\Modules\CMakeCCompilerABI.c"
+Using built-in specs.
+COLLECT_GCC=C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe
+Target: i686-w64-mingw32
+Configured with: ../../../src/gcc-8.1.0/configure --host=i686-w64-mingw32 --build=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=/mingw32 --with-sysroot=/c/mingw810/i686-810-posix-dwarf-rt_v6-rev0/mingw32 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --disable-sjlj-exceptions --with-dwarf2 --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=i686 --with-tune=generic --with-libiconv --with-system-zlib --with-gmp=/c/mingw810/prerequisites/i686-w64-mingw32-static --with-mpfr=/c/mingw810/prerequisites/i686-w64-mingw32-static --with-mpc=/c/mingw810/prerequisites/i686-w64-mingw32-static --with-isl=/c/mingw810/prerequisites/i686-w64-mingw32-static --with-pkgversion='i686-posix-dwarf-rev0, Built by MinGW-W64 project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/c/mingw810/i686-810-posix-dwarf-rt_v6-rev0/mingw32/opt/include -I/c/mingw810/prerequisites/i686-zlib-static/include -I/c/mingw810/prerequisites/i686-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/c/mingw810/i686-810-posix-dwarf-rt_v6-rev0/mingw32/opt/include -I/c/mingw810/prerequisites/i686-zlib-static/include -I/c/mingw810/prerequisites/i686-w64-mingw32-static/include' CPPFLAGS=' -I/c/mingw810/i686-810-posix-dwarf-rt_v6-rev0/mingw32/opt/include -I/c/mingw810/prerequisites/i686-zlib-static/include -I/c/mingw810/prerequisites/i686-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/c/mingw810/i686-810-posix-dwarf-rt_v6-rev0/mingw32/opt/lib -L/c/mingw810/prerequisites/i686-zlib-static/lib -L/c/mingw810/prerequisites/i686-w64-mingw32-static/lib -Wl,--large-address-aware'
+Thread model: posix
+gcc version 8.1.0 (i686-posix-dwarf-rev0, Built by MinGW-W64 project) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_b2e03.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=i686'
+ C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/../libexec/gcc/i686-w64-mingw32/8.1.0/cc1.exe -quiet -v -iprefix C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/ -D_REENTRANT C:\Program Files\JetBrains\CLion 2020.3.2\bin\cmake\win\share\cmake-3.19\Modules\CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=i686 -auxbase-strip CMakeFiles\cmTC_b2e03.dir\CMakeCCompilerABI.c.obj -version -o C:\Users\jeanb\AppData\Local\Temp\ccsM4GOB.s
+GNU C17 (i686-posix-dwarf-rev0, Built by MinGW-W64 project) version 8.1.0 (i686-w64-mingw32)
+	compiled by GNU C version 8.1.0, GMP version 6.1.2, MPFR version 4.0.1, MPC version 1.1.0, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/lib/gcc/../../lib/gcc/i686-w64-mingw32/8.1.0/include"
+ignoring nonexistent directory "C:/mingw810/i686-810-posix-dwarf-rt_v6-rev0/mingw32C:/msys64/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/../../../../include"
+ignoring duplicate directory "C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/lib/gcc/../../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"
+ignoring duplicate directory "C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/lib/gcc/../../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"
+ignoring nonexistent directory "C:/mingw810/i686-810-posix-dwarf-rt_v6-rev0/mingw32/mingw/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include
+ C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed
+ C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include
+End of search list.
+GNU C17 (i686-posix-dwarf-rev0, Built by MinGW-W64 project) version 8.1.0 (i686-w64-mingw32)
+	compiled by GNU C version 8.1.0, GMP version 6.1.2, MPFR version 4.0.1, MPC version 1.1.0, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: e06e4963445adb9452054627e12eacb8
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_b2e03.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=i686'
+ C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_b2e03.dir\CMakeCCompilerABI.c.obj C:\Users\jeanb\AppData\Local\Temp\ccsM4GOB.s
+GNU assembler version 2.30 (i686-w64-mingw32) using BFD version (GNU Binutils) 2.30
+Assembler messages:
+Fatal error: can't create CMakeFiles\cmTC_b2e03.dir\CMakeCCompilerABI.c.obj: No such file or directory
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_b2e03.dir\build.make:84: CMakeFiles/cmTC_b2e03.dir/CMakeCCompilerABI.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'C:/Users/jeanb/CLionProjects/PuissanceN/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:139: cmTC_b2e03/fast] Error 2
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/jeanb/CLionProjects/PuissanceN/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe cmTC_e3545/fast && C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_e3545.dir\build.make CMakeFiles/cmTC_e3545.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/jeanb/CLionProjects/PuissanceN/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e3545.dir/testCCompiler.c.obj
+C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe    -o CMakeFiles\cmTC_e3545.dir\testCCompiler.c.obj -c C:\Users\jeanb\CLionProjects\PuissanceN\cmake-build-debug\CMakeFiles\CMakeTmp\testCCompiler.c
+Assembler messages:
+Fatal error: can't create CMakeFiles\cmTC_e3545.dir\testCCompiler.c.obj: No such file or directory
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_e3545.dir\build.make:84: CMakeFiles/cmTC_e3545.dir/testCCompiler.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'C:/Users/jeanb/CLionProjects/PuissanceN/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:139: cmTC_e3545/fast] Error 2
+
+
+
