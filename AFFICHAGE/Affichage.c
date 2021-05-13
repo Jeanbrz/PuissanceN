@@ -2,11 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "Affichage.h"
 #include "../DONNEES/Base_Donnee.h"
 #include "../LOGIQUE/Logique.h"
 #include "../UTILS/Utils.h"
+#include "Affichage.h"
 
 /**
  * Lance le jeu en affichant le menu et les procédures en fonction du choix utilisateur
@@ -33,7 +35,7 @@ int initGame(){
             //charger_partie;
             break;
         case 2:
-            nouvelle_partie;
+        aleatoire();
             break;
         case 3:
             printf("\n A bientot pour de nouvelles aventures LOL mdr xptdr lmao PAUL LE BOSS!!!\n");
@@ -87,4 +89,40 @@ int getCellWidth(int N){
     }*/
 
     return strlen(NChar);
+}
+
+/*
+int choix_colonne() {
+
+    int rep, N=4;
+
+    printf("dans quelle colonne voulez vous jouer ?\n");
+    scanf("%d", &rep);
+
+    while (rep<0 || rep>N+2) {
+        printf("veuillez saisir une valeur entre 1 et %d \n", N+2);
+        scanf("%d", &rep);
+    }
+
+    return rep;
+
+} */
+
+
+void aleatoire() {
+
+    int alea;
+    srand(time(0));
+
+    printf("\n........TIRAGE AU SORT.........\n");
+    printf("...............................\n");
+    alea = rand()%2+1;
+    if (alea==1){
+        printf("Joueur rouge, a vous l'honneur !\n");
+    } else {
+        printf("joueur bleu, a vous l'honneur !\n");
+    }
+    printf("...............................\n");
+    printf("...............................\n");
+
 }
