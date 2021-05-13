@@ -22,20 +22,26 @@ int initGame(){
 
     scanf("%s", &menuChoice);
     isValid = isNumeric(menuChoice);
+    if (atoi(menuChoice)>3){
+        isValid = false;
+    }
 
     while(isValid != true){
         printf("\nERREUR\n");
         menu();
         scanf("%s", &menuChoice);
         isValid= isNumeric(menuChoice);
+        if (atoi(menuChoice)>3){
+            isValid = false;
+        }
     }
 
     switch (atoi(menuChoice)) {
         case 1:
-            //charger_partie;
+            //charger_partie();
             break;
         case 2:
-        aleatoire();
+            nouvelle_partie();
             break;
         case 3:
             printf("\n A bientot pour de nouvelles aventures LOL mdr xptdr lmao PAUL LE BOSS!!!\n");
@@ -61,20 +67,30 @@ void nouvelle_partie(){
 
     //Saisie du nombre de jettons :
     char nbrjettons[]="";
-    int test;
+    bool isValid = true;
+    int *statusData;
+    int N;
     printf("Saisir le nombre de jettons pour jouer :\n");
     scanf("%s", &nbrjettons);
     //Vérifications de la saisie :
-    test= isNumeric(nbrjettons);
-    while(test!=0){
+    isValid = isNumeric(nbrjettons);
+    if(atoi(nbrjettons)<2){
+        isValid=false;
+    }
+
+    while(isValid!=true){
         printf("\nERREUR-Saisissez une valeur num%crique jouable (>=2) :\n", 130);
         scanf("%s", &nbrjettons);
-        test= isNumeric(nbrjettons);
+        isValid = isNumeric(nbrjettons);
+        if(atoi(nbrjettons)<2){
+            isValid=false;
+        }
     }
- 
+    N=atoi(nbrjettons);
+    aleatoire();
+    statusData = init_donnees(N);
+
 }
-
-
 
 int getCellWidth(int N){
 
@@ -96,7 +112,7 @@ int choix_colonne() {
 
     int rep, N=4;
 
-    printf("dans quelle colonne voulez vous jouer ?\n");
+    printf("Dans quelle colonne voulez vous jouer ?\n");
     scanf("%d", &rep);
 
     while (rep<0 || rep>N+2) {
@@ -120,9 +136,6 @@ void aleatoire() {
     if (alea==1){
         printf("Joueur rouge, a vous l'honneur !\n");
     } else {
-        printf("joueur bleu, a vous l'honneur !\n");
+        printf("Joueur bleu, a vous l'honneur !\n");
     }
-    printf("...............................\n");
-    printf("...............................\n");
-
 }
