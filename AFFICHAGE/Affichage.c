@@ -25,7 +25,7 @@ int initGame(){
 
     scanf("%s", &menuChoice);
     isValid = isNumeric(menuChoice);
-    if (atoi(menuChoice)>3){
+    if (atoi(menuChoice)>3 || atoi(menuChoice)<1){
         isValid = false;
     }
 
@@ -34,7 +34,7 @@ int initGame(){
         menu();
         scanf("%s", &menuChoice);
         isValid= isNumeric(menuChoice);
-        if (atoi(menuChoice)>3){
+        if (atoi(menuChoice)>3 || atoi(menuChoice)<1){
             isValid = false;
         }
     }
@@ -74,7 +74,7 @@ void newGame(){
     int N, cellWidth;
     int currentPlayer;
 
-    printf("Saisir le nombre de jettons pour jouer :\n");
+    printf("\nSaisir le nombre de jettons pour jouer :\n");
     scanf("%s", &nbrjettons);
     //Vérifications de la saisie :
     isValid = isNumeric(nbrjettons);
