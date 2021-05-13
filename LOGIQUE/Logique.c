@@ -1,31 +1,24 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "Affichage.h"
 
-void tour() {
+bool play(int currentPlayer, int N) {
 
-/* int colonne, N=4, tab[100][100];
+    int grid[N+2][N+2];
+    int i =N+2, j;
 
-    colonne = choix_colonne();
+    printf("Joueur %d a vous de jouer\n", currentPlayer);
+    j = columnChoice(N);
 
-
-    int i,j;
-
-    j=colonne;
-    i = N+2;
-
-    if (tab[i][j]==1 || tab[i][j]==2) {
-        while ( tab[i][j]!=0) {
+    if (grid[i][j] == 1 || grid[i][j] == 2) {
+        while (grid[i][j] != 0) {
             i = i - 1;
         }
-
-        tab[i][j]=1;
-
+        grid[i][j]=1;
     } else {
-        tab[i][j]=1;    //on dit que c'est le joueur rouge qui joue
+        grid[i][j]=1;    //on dit que c'est le joueur rouge qui joue
     }
 
-}
-
-*/
 }

@@ -11,16 +11,12 @@
  * @param N
  * @return
  */
-int *init_donnees(int N){
+int init_donnees(int N, int table_donnees[N + 2][N + 2]){
 
-    int tabl_donnees[N+2][N+2];
     int i, j;
-    int * P_tabl;
     for(i=0; i<N+2; i++){
         for(j=0; j<N+2; j++){
-            tabl_donnees[i][j] = 0;
+            table_donnees[i][j] = 0;
         }
     }
-    P_tabl=&tabl_donnees;
-    return P_tabl;
 }

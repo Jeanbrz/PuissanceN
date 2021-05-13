@@ -2,12 +2,14 @@ int initGame();
 
 void menu();
 
-void nouvelle_partie();
+void newGame();
 
 int getCellWidth(int N);
 
-void displayGrid(int *, int);
+int columnChoice(int N);
 
-int choix_colonne();
+int getFirstPlayer();
 
-void aleatoire();
+int getNextPlayer(int currentPlayer);
+
+void displayGrid(int N, int grid[N+2][N+2], int cellWidth);

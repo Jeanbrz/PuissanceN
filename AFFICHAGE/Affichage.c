@@ -10,6 +10,9 @@
 #include "../UTILS/Utils.h"
 #include "Affichage.h"
 
+#define PLAYER_ONE 1
+#define PLAYER_TWO 2
+
 /**
  * Lance le jeu en affichant le menu et les procédures en fonction du choix utilisateur
  * @return
@@ -41,7 +44,7 @@ int initGame(){
             //charger_partie();
             break;
         case 2:
-            nouvelle_partie();
+            newGame();
             break;
         case 3:
             printf("\n A bientot pour de nouvelles aventures LOL mdr xptdr lmao PAUL LE BOSS!!!\n");
@@ -63,13 +66,14 @@ void menu(){
 /**
  * Saisie le nombre de jettons, initialise les données et la grille
  */
-void nouvelle_partie(){
+void newGame(){
 
     //Saisie du nombre de jettons :
     char nbrjettons[]="";
-    bool isValid = true;
-    int *statusData;
-    int N;
+    bool isValid = true, isGameOver = false;
+    int N, cellWidth;
+    int currentPlayer;
+
     printf("Saisir le nombre de jettons pour jouer :\n");
     scanf("%s", &nbrjettons);
     //Vérifications de la saisie :
@@ -86,11 +90,52 @@ void nouvelle_partie(){
             isValid=false;
         }
     }
-    N=atoi(nbrjettons);
-    aleatoire();
-    statusData = init_donnees(N);
 
+    N=atoi(nbrjettons);
+    int gridStatus[N+2][N+2];
+    currentPlayer = getFirstPlayer();
+    cellWidth = getCellWidth(N);
+    init_donnees(N, gridStatus);
+    while(!isGameOver){
+        displayGrid(N, gridStatus, cellWidth);
+        isGameOver = play(currentPlayer, N);
+        currentPlayer = getNextPlayer(currentPlayer);
+    }
 }
+
+void displayGrid(int N, int grid[N+2][N+2], int cellWidth){
+
+    int i, j, space;
+
+    for (i=0; i<N+2; i++){
+        space=0;
+
+        for(j=0; j<N+2; j++){
+
+            if (j == 0){
+                printf("|");
+            }
+            if(grid[i][j]==0){
+                printf(" ");
+            }
+            if(grid[i][j]==1){
+                printf("X");
+            }
+            if(grid[i][j]==0){
+                printf("O");
+            }
+
+            while(space<cellWidth-1){
+                printf(" ");
+                space = space+1;
+            }
+            printf("|");
+        }
+        printf("\n");
+    }
+}
+
+
 
 int getCellWidth(int N){
 
@@ -98,44 +143,53 @@ int getCellWidth(int N){
     int width = 0;
 
     itoa(N, NChar, 10);
-    /*if (strlen(NLength)%2 == 0){
-        width = N + 1;
+    if (strlen(NChar)%2 == 0){
+        width = strlen(NChar)+1;
     } else {
-        width = N;
-    }*/
-
-    return strlen(NChar);
+        width = strlen(NChar);
+    }
+    return width;
 }
 
-/*
-int choix_colonne() {
 
-    int rep, N=4;
+int columnChoice(int N) {
+
+    int rep;
 
     printf("Dans quelle colonne voulez vous jouer ?\n");
     scanf("%d", &rep);
 
     while (rep<0 || rep>N+2) {
-        printf("veuillez saisir une valeur entre 1 et %d \n", N+2);
+        printf("veuillez saisir une valeur comprise entre 1 et %d \n", N+2);
         scanf("%d", &rep);
     }
-
     return rep;
+}
 
-} */
+int getFirstPlayer() {
 
-
-void aleatoire() {
-
-    int alea;
+    int alea, player;
     srand(time(0));
 
     printf("\n........TIRAGE AU SORT.........\n");
     printf("...............................\n");
     alea = rand()%2+1;
     if (alea==1){
-        printf("Joueur rouge, a vous l'honneur !\n");
+        player = PLAYER_ONE;
     } else {
-        printf("Joueur bleu, a vous l'honneur !\n");
+        player = PLAYER_TWO;
     }
+    return player;
+}
+
+int getNextPlayer(int currentPlayer) {
+    int nextPlayer;
+
+    if (currentPlayer == PLAYER_ONE) {
+        nextPlayer = PLAYER_TWO;
+    } else {
+        nextPlayer = PLAYER_ONE;
+    }
+
+    return nextPlayer;
 }
