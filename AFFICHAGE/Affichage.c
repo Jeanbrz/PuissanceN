@@ -121,7 +121,7 @@ void displayGrid(int N, int grid[N+2][N+2], int cellWidth){
             if(grid[i][j]==1){
                 printf("X");
             }
-            if(grid[i][j]==0){
+            if(grid[i][j]==2){
                 printf("O");
             }
 
@@ -139,15 +139,17 @@ void displayGrid(int N, int grid[N+2][N+2], int cellWidth){
 
 int getCellWidth(int N){
 
-    char NChar[] = "";
+    char NChar[]="";
     int width = 0;
 
-    itoa(N, NChar, 10);
+    itoa(N+2, NChar, 10);
+    printf("\n%s\n", NChar);
     if (strlen(NChar)%2 == 0){
         width = strlen(NChar)+1;
     } else {
         width = strlen(NChar);
     }
+    printf("\n%d\n", width);
     return width;
 }
 
