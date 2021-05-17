@@ -20,24 +20,17 @@
 int initGame(){
     char menuChoice[] = "";
     bool isValid = true;
-    int N;
 
     menu();
     scanf("%s", &menuChoice);
-    N = atoi(menuChoice);
     isValid = isNumeric(menuChoice);
 
-    if (N){
-        isValid = false;
-    }
     while(isValid != true){
+        isValid = true;
         printf("\nERREUR\n");
         menu();
         scanf("%s", &menuChoice);
-        isValid= isNumeric(menuChoice);
-        if (atoi(menuChoice)>=4){
-            isValid = false;
-        }
+
     }
 
     switch (atoi(menuChoice)) {

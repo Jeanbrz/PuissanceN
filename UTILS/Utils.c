@@ -4,7 +4,7 @@
 
 #include "Utils.h"
 
-bool isNumeric(char input[100]){
+bool isNumeric(char *input){
     int i = 0, inputLength = strlen(input);
     char currentChar;
     bool isNumeric = true;
