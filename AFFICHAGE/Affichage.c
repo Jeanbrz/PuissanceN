@@ -99,7 +99,7 @@ void newGame(){
     init_donnees(N, gridStatus);
     while(!isGameOver){
         displayGrid(N, gridStatus, cellWidth);
-        isGameOver = play(currentPlayer, N);
+        isGameOver = play(currentPlayer, N, gridStatus);
         currentPlayer = getNextPlayer(currentPlayer);
     }
 }
