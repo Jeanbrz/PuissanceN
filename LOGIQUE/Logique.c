@@ -33,19 +33,19 @@ bool play(int currentPlayer, int N, int gridStatus[N+2][N+2]) {
 int addValue(int j, int N, int gridStatus[N+2][N+2], int currentPlayer) {
 
 
-    int i=N+2 ;
+    int i=N+2;
 
-        while (gridStatus[i][j] != 0) {
+    while (gridStatus[i][j] != 0) {
 
-            i = i - 1;
+        i = i - 1;
 
-            if (i==0 && gridStatus[i][j] != 0) {
+        if (i==0 && gridStatus[i][j] != 0) {
 
-                printf("veuillez resaisir une colonne\n");
-                j = columnChoice(N);
-                i = N+2;
-            }
+            printf("veuillez resaisir une colonne\n");
+            j = columnChoice(N);
+            i = N+2;
         }
+    }
+    gridStatus[i][j]= currentPlayer;
 
-        gridStatus[i][j]= currentPlayer;
 }

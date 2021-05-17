@@ -195,6 +195,7 @@ int gameChoice(){
     char choice[]="";
     bool isValid;
 
+
     printf("Que voulez-vous faire ?\n"
            "1 : Poser un jetton\n"
            "2 : Enlever un jetton\n");
@@ -209,5 +210,5 @@ int gameChoice(){
         scanf("%d", &choice);
         isValid = isNumeric(choice);
     }
-    return choice;
+    return atoi(choice);
 }
