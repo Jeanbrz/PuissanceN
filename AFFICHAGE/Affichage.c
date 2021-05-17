@@ -202,18 +202,12 @@ int gameChoice(){
 
     //Vérifications de la saisie :
     isValid = isNumeric(choice);
-    if(atoi(choice)!=1 || atoi(choice)!=2){
-        isValid=false;
-    }
     while(isValid!=true){
         printf("ERREUR - Que voulez-vous faire ?\n"
                "1 : Poser un jetton\n"
                "2 : Enlever un jetton\n");
         scanf("%d", &choice);
         isValid = isNumeric(choice);
-        if(atoi(choice)!=1 || atoi(choice)!=2){
-            isValid=false;
-        }
     }
     return choice;
 }
