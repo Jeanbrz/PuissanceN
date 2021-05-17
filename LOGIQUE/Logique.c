@@ -16,9 +16,9 @@ bool play(int currentPlayer, int N) {
         while (grid[i][j] != 0) {
             i = i - 1;
         }
-        grid[i][j]=1;
+        grid[i][j]= currentPlayer;
     } else {
-        grid[i][j]=1;    //on dit que c'est le joueur rouge qui joue
+        grid[i][j]= currentPlayer;
     }
 
 }

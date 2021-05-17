@@ -47,7 +47,7 @@ int initGame(){
             newGame();
             break;
         case 3:
-            printf("\n A bientot pour de nouvelles aventures LOL mdr xptdr lmao PAUL LE BOSS!!!\n");
+            printf("\n A bientot pour de nouvelles aventures\n");
             return 0;
     }
 }
