@@ -95,10 +95,11 @@ void newGame(){
     int gridStatus[N+2][N+2];
     currentPlayer = getFirstPlayer();
     cellWidth = getCellWidth(N);
+    // Mise à 0 de gridStatus :
     init_donnees(N, gridStatus);
     while(!isGameOver){
         displayGrid(N, gridStatus, cellWidth);
-        isGameOver = play(currentPlayer, N);
+        isGameOver = play(currentPlayer, N, gridStatus);
         currentPlayer = getNextPlayer(currentPlayer);
     }
 }
@@ -125,6 +126,7 @@ void displayGrid(int N, int grid[N+2][N+2], int cellWidth){
                 printf("O");
             }
 
+            //Afficher une cellule de la bonn,e largeure
             while(space<cellWidth-1){
                 printf(" ");
                 space = space+1;
