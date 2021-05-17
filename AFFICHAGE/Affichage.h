@@ -13,3 +13,5 @@ int getFirstPlayer();
 int getNextPlayer(int currentPlayer);
 
 void displayGrid(int N, int grid[N+2][N+2], int cellWidth);
+
+int gameChoice();

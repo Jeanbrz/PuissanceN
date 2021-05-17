@@ -195,3 +195,17 @@ int getNextPlayer(int currentPlayer) {
 
     return nextPlayer;
 }
+
+
+int gameChoice(){
+
+    int choice;
+
+    printf("Que voulez-vous faire ?\n"
+           "1 : Poser un jetton\n"
+           "2 : Enlever un jetton\n");
+
+    scanf("%d", &choice);
+
+    return choice;
+}
