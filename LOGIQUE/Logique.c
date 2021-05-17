@@ -3,21 +3,49 @@
 #include <stdio.h>
 
 #include "Affichage.h"
+#include "Logique.h"
 
-bool play(int currentPlayer, int N) {
+bool play(int currentPlayer, int N, int gridStatus[N+2][N+2]) {
 
-    int grid[N+2][N+2];
-    int i=N+2, j;
+    int j, choice;
 
     printf("Joueur %d a vous de jouer\n", currentPlayer);
 
-    j = columnChoice(N);
+    choice = gameChoice();
+
+    switch (choice) {
+
+        case 1:
+
+            j = columnChoice(N);
+
+            addValue(j, N, gridStatus, currentPlayer);
+
+            break;
 
 
-    if (grid[i][j] == 1 || grid[i][j] == 2) {
-        while (grid[i][j] != 0) {
-            i = i - 1;
-        }
     }
-    grid[i][j]= currentPlayer;
+
+
+
+}
+
+int addValue(int j, int N, int gridStatus[N+2][N+2], int currentPlayer) {
+
+
+    int i=N+2 ;
+
+        while (gridStatus[i][j] != 0) {
+
+            i = i - 1;
+
+            if (i==0 && gridStatus[i][j] != 0) {
+
+                printf("veuillez resaisir une colonne\n");
+                j = columnChoice(N);
+                i = N+2;
+            }
+        }
+
+        gridStatus[i][j]= currentPlayer;
 }
