@@ -20,21 +20,22 @@
 int initGame(){
     char menuChoice[] = "";
     bool isValid = true;
+    int N;
 
     menu();
-
     scanf("%s", &menuChoice);
+    N = atoi(menuChoice);
     isValid = isNumeric(menuChoice);
-    if (atoi(menuChoice)>3 || atoi(menuChoice)<1){
+
+    if (N){
         isValid = false;
     }
-
     while(isValid != true){
         printf("\nERREUR\n");
         menu();
         scanf("%s", &menuChoice);
         isValid= isNumeric(menuChoice);
-        if (atoi(menuChoice)>3 || atoi(menuChoice)<1){
+        if (atoi(menuChoice)>=4){
             isValid = false;
         }
     }
@@ -81,7 +82,6 @@ void newGame(){
     if(atoi(nbrjettons)<2){
         isValid=false;
     }
-
     while(isValid!=true){
         printf("\nERREUR-Saisissez une valeur num%crique jouable (>=2) :\n", 130);
         scanf("%s", &nbrjettons);
@@ -136,7 +136,6 @@ void displayGrid(int N, int grid[N+2][N+2], int cellWidth){
         printf("\n");
     }
 }
-
 
 
 int getCellWidth(int N){
@@ -201,13 +200,28 @@ int getNextPlayer(int currentPlayer) {
 
 int gameChoice(){
 
-    int choice;
+    char choice[]="";
+    bool isValid;
 
     printf("Que voulez-vous faire ?\n"
            "1 : Poser un jetton\n"
            "2 : Enlever un jetton\n");
+    scanf("%s", &choice);
 
-    scanf("%d", &choice);
-
+    //Vérifications de la saisie :
+    isValid = isNumeric(choice);
+    if(atoi(choice)!=1 || atoi(choice)!=2){
+        isValid=false;
+    }
+    while(isValid!=true){
+        printf("ERREUR - Que voulez-vous faire ?\n"
+               "1 : Poser un jetton\n"
+               "2 : Enlever un jetton\n");
+        scanf("%d", &choice);
+        isValid = isNumeric(choice);
+        if(atoi(choice)!=1 || atoi(choice)!=2){
+            isValid=false;
+        }
+    }
     return choice;
 }

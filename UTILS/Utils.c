@@ -4,16 +4,16 @@
 
 #include "Utils.h"
 
-bool isNumeric(char *input){
+bool isNumeric(char input[100]){
     int i = 0, inputLength = strlen(input);
+    char currentChar;
     bool isNumeric = true;
 
     while (isNumeric == true && i < inputLength) {
-        char currentChar = input[i];
+        currentChar = input[i];
         if (!isdigit(currentChar)) {
             isNumeric = false;
         }
-
         i = i + 1;
     }
 
