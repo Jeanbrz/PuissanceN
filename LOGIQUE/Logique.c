@@ -10,9 +10,7 @@ bool play(int currentPlayer, int N, int gridStatus[N+2][N+2]) {
     int j, choice;
 
     printf("Joueur %d a vous de jouer\n", currentPlayer);
-
     choice = gameChoice();
-
     switch (choice) {
 
         case 1:
@@ -20,18 +18,10 @@ bool play(int currentPlayer, int N, int gridStatus[N+2][N+2]) {
             j = columnChoice(N);
 
             addValue(j, N, gridStatus, currentPlayer);
-
-            break;
-
-
     }
-
-
-
 }
 
 int addValue(int j, int N, int gridStatus[N+2][N+2], int currentPlayer) {
-
 
     int i=N+2;
 

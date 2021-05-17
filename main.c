@@ -1,7 +1,7 @@
 #include "AFFICHAGE/Affichage.h"
 
 int main() {
-    initGame();
+    initUserInterface();
 
     return 0;
 }

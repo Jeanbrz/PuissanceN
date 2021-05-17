@@ -1,8 +1,8 @@
-int initGame();
+int initUserInterface();
 
-void menu();
+void displayMenu();
 
-void newGame();
+void playGame();
 
 int getCellWidth(int N);
 

@@ -17,17 +17,18 @@
  * Lance le jeu en affichant le menu et les procédures en fonction du choix utilisateur
  * @return
  */
-int initGame(){
+int initUserInterface(){
+
     char menuChoice[] = "";
     bool isValid = true;
 
-    menu();
+    displayMenu();
     scanf("%s", &menuChoice);
     isValid = isNumeric(menuChoice);
     while(isValid != true){
         isValid = true;
         printf("\nERREUR\n");
-        menu();
+        displayMenu();
         scanf("%s", &menuChoice);
         isValid = isNumeric(menuChoice);
     }
@@ -37,7 +38,7 @@ int initGame(){
             //charger_partie();
             break;
         case 2:
-            newGame();
+            playGame();
             break;
         case 3:
             printf("\n A bientot pour de nouvelles aventures\n");
@@ -48,7 +49,7 @@ int initGame(){
 /**
  * Affiche le menu d'options
  */
-void menu(){
+void displayMenu(){
     printf("Bienvenue au puissance N\n\n"
            "1-Charger la derniere partie\n"
            "2-Lancer une nouvelle partie\n"
@@ -59,7 +60,7 @@ void menu(){
 /**
  * Saisie le nombre de jettons, initialise les données et la grille
  */
-void newGame(){
+void playGame(){
 
     //Saisie du nombre de jettons :
     char nbrjettons[]="";
@@ -158,6 +159,7 @@ int columnChoice(int N) {
         printf("veuillez saisir une valeur comprise entre 1 et %d \n", N+2);
         scanf("%d", &rep);
     }
+    rep = rep-1;
     return rep;
 }
 
