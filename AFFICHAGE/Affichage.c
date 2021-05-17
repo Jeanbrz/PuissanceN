@@ -24,13 +24,12 @@ int initGame(){
     menu();
     scanf("%s", &menuChoice);
     isValid = isNumeric(menuChoice);
-
     while(isValid != true){
         isValid = true;
         printf("\nERREUR\n");
         menu();
         scanf("%s", &menuChoice);
-
+        isValid = isNumeric(menuChoice);
     }
 
     switch (atoi(menuChoice)) {
