@@ -10,6 +10,7 @@ bool play(int currentPlayer, int N) {
     int i =N+2, j;
 
     printf("Joueur %d a vous de jouer\n", currentPlayer);
+
     j = columnChoice(N);
 
     if (grid[i][j] == 1 || grid[i][j] == 2) {
