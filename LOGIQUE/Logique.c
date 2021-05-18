@@ -5,37 +5,34 @@
 #include "Affichage.h"
 #include "Logique.h"
 
-bool play(int currentPlayer, int N, int gridStatus[N+2][N+2]) {
+bool play(int currentPlayer, int N, int grid[N+2][N+2]) {
 
     int j, choice;
 
     printf("Joueur %d a vous de jouer\n", currentPlayer);
     choice = gameChoice();
-    switch (choice) {
-
-        case 1:
-
-            j = columnChoice(N);
-
-            addValue(j, N, gridStatus, currentPlayer);
+    if (choice==1) {
+        j = columnChoice(N);
+        addValue(j, N, grid, currentPlayer);
     }
+    return false;
 }
 
-int addValue(int j, int N, int gridStatus[N+2][N+2], int currentPlayer) {
 
-    int i=N+2;
+int addValue(int j, int N, int gridToUpdate[N+1][N+1], int currentPlayer) {
 
-    while (gridStatus[i][j] != 0) {
+    int i=N+1;
 
-        i = i - 1;
+    printf("N = %d, j = %d\n", N, j);
+    while (gridToUpdate[i][j] != 0) {
 
-        if (i==0 && gridStatus[i][j] != 0) {
+        if ((i == 0) && (gridToUpdate[i][j] != 0)) {
 
             printf("veuillez resaisir une colonne\n");
             j = columnChoice(N);
-            i = N+2;
+            i = N+1;
         }
+        i = i - 1;
     }
-    gridStatus[i][j]= currentPlayer;
-
+    gridToUpdate[i][j]= currentPlayer;
 }

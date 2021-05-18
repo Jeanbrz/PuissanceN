@@ -19,21 +19,12 @@
  */
 int initUserInterface(){
 
-    char menuChoice[] = "";
-    bool isValid = true;
+    int menuChoice;
 
-    displayMenu();
-    scanf("%s", &menuChoice);
-    isValid = isNumeric(menuChoice);
-    while(isValid != true){
-        isValid = true;
-        printf("\nERREUR\n");
-        displayMenu();
-        scanf("%s", &menuChoice);
-        isValid = isNumeric(menuChoice);
-    }
+    menuChoice = displayMenu();
 
-    switch (atoi(menuChoice)) {
+    //Choix de la suite du programme en fonction de la saisie :
+    switch (menuChoice) {
         case 1:
             //charger_partie();
             break;
@@ -47,49 +38,41 @@ int initUserInterface(){
 }
 
 /**
- * Affiche le menu d'options
- */
-void displayMenu(){
-    printf("Bienvenue au puissance N\n\n"
-           "1-Charger la derniere partie\n"
-           "2-Lancer une nouvelle partie\n"
-           "3-Quitter\n"
-           "Que voulez vous faire :");
-}
-
-/**
  * Saisie le nombre de jettons, initialise les données et la grille
  */
 void playGame(){
+    
+    bool isValid = true, isGameOver = false;
+    char tokenNumber[]="";
+    int N, cellWidth, currentPlayer;
 
     //Saisie du nombre de jettons :
-    char nbrjettons[]="";
-    bool isValid = true, isGameOver = false;
-    int N, cellWidth;
-    int currentPlayer;
-
     printf("\nSaisir le nombre de jettons pour jouer :\n");
-    scanf("%s", &nbrjettons);
-    //Vérifications de la saisie :
-    isValid = isNumeric(nbrjettons);
-    if(atoi(nbrjettons)<2){
+    scanf("%s", &tokenNumber);
+
+    //Vérrification du caractère numérique et de la cohérence de la saisie :
+    isValid = isNumeric(tokenNumber);
+    if(atoi(tokenNumber) < 2){
         isValid=false;
     }
     while(isValid!=true){
         printf("\nERREUR-Saisissez une valeur num%crique jouable (>=2) :\n", 130);
-        scanf("%s", &nbrjettons);
-        isValid = isNumeric(nbrjettons);
-        if(atoi(nbrjettons)<2){
+        scanf("%s", &tokenNumber);
+        isValid = isNumeric(tokenNumber);
+        if(atoi(tokenNumber) < 2){
             isValid=false;
         }
     }
 
-    N=atoi(nbrjettons);
-    int gridStatus[N+2][N+2];
+    N = atoi(tokenNumber);
+    int gridStatus[N+1][N+1];
+
     currentPlayer = getFirstPlayer();
-    cellWidth = getCellWidth(N);
-    // Mise à 0 de gridStatus :
+    cellWidth=2;
+
+    //Initailisation à 0 des cases de gridStatus :
     init_donnees(N, gridStatus);
+
     while(!isGameOver){
         displayGrid(N, gridStatus, cellWidth);
         isGameOver = play(currentPlayer, N, gridStatus);
@@ -97,14 +80,14 @@ void playGame(){
     }
 }
 
-void displayGrid(int N, int grid[N+2][N+2], int cellWidth){
+void displayGrid(int N, int grid[N+1][N+1], int cellWidth){
 
     int i, j, space;
 
-    for (i=0; i<N+2; i++){
-        space=0;
+    for (i=0; i<=N+1; i++){
 
-        for(j=0; j<N+2; j++){
+        for(j=0; j<=N+1; j++){
+            space=0;
 
             if (j == 0){
                 printf("|");
@@ -119,8 +102,8 @@ void displayGrid(int N, int grid[N+2][N+2], int cellWidth){
                 printf("O");
             }
 
-            //Afficher une cellule de la bonn,e largeure
-            while(space<cellWidth-1){
+            //Afficher une cellule de la bonne largeure
+            while(space<cellWidth){
                 printf(" ");
                 space = space+1;
             }
@@ -137,31 +120,14 @@ int getCellWidth(int N){
     int width = 0;
 
     itoa(N+2, NChar, 10);
-    printf("\n%s\n", NChar);
     if (strlen(NChar)%2 == 0){
         width = strlen(NChar)+1;
     } else {
         width = strlen(NChar);
     }
-    printf("\n%d\n", width);
     return width;
 }
 
-
-int columnChoice(int N) {
-
-    int rep;
-
-    printf("Dans quelle colonne voulez vous jouer ?\n");
-    scanf("%d", &rep);
-
-    while (rep<0 || rep>N+2) {
-        printf("veuillez saisir une valeur comprise entre 1 et %d \n", N+2);
-        scanf("%d", &rep);
-    }
-    rep = rep-1;
-    return rep;
-}
 
 int getFirstPlayer() {
 
@@ -192,25 +158,3 @@ int getNextPlayer(int currentPlayer) {
 }
 
 
-int gameChoice(){
-
-    char choice[]="";
-    bool isValid;
-
-
-    printf("Que voulez-vous faire ?\n"
-           "1 : Poser un jetton\n"
-           "2 : Enlever un jetton\n");
-    scanf("%s", &choice);
-
-    //Vérifications de la saisie :
-    isValid = isNumeric(choice);
-    while(isValid!=true){
-        printf("ERREUR - Que voulez-vous faire ?\n"
-               "1 : Poser un jetton\n"
-               "2 : Enlever un jetton\n");
-        scanf("%d", &choice);
-        isValid = isNumeric(choice);
-    }
-    return atoi(choice);
-}

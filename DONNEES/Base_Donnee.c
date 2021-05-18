@@ -11,11 +11,11 @@
  * @param N
  * @return
  */
-int init_donnees(int N, int table_donnees[N + 2][N + 2]){
+int init_donnees(int N, int table_donnees[N+1][N+1]){
 
     int i, j;
-    for(i=0; i<N+2; i++){
-        for(j=0; j<N+2; j++){
+    for(i=0; i<=N+1; i++){
+        for(j=0; j<=N+1; j++){
             table_donnees[i][j] = 0;
         }
     }

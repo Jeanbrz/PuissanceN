@@ -1,6 +1,6 @@
 int initUserInterface();
 
-void displayMenu();
+int displayMenu();
 
 void playGame();
 
@@ -12,6 +12,6 @@ int getFirstPlayer();
 
 int getNextPlayer(int currentPlayer);
 
-void displayGrid(int N, int grid[N+2][N+2], int cellWidth);
+void displayGrid(int N, int grid[N+1][N+1], int cellWidth);
 
 int gameChoice();
