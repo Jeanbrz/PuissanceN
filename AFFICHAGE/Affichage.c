@@ -19,8 +19,19 @@
  */
 int initUserInterface(){
 
+    int answer;
 
-    playGame();
+    answer = displayMenu();
+    switch (answer) {
+
+        case 1 :
+
+        case 2 : playGame(); break;
+
+        case 3 : printf("\nA bientot pour de nouvelle avantures ! \n"); return 0; break;
+
+    }
+
 
     return 0;
 }
@@ -32,11 +43,11 @@ void playGame(){
 
     bool isValid = true, isGameOver = false;
     char tokenNumber[] = "";
-    int N, N_COLS, cellWidth, currentPlayer;
+    int N, N_COLS, cellWidth, currentPlayer, turn = 0;
 
     //Saisie du nombre de jettons :
     printf("\nSaisir le nombre de jetons pour jouer :\n");
-    scanf("%c", tokenNumber);
+    scanf("%s", tokenNumber);
 
     N = atoi(tokenNumber);
 
@@ -56,12 +67,13 @@ void playGame(){
 
     //Initailisation à 0 des cases de gridStatus
     init_donnees(N_COLS, gridAdress);
-    displayGrid(N_COLS, gridAdress, 2);
+    displayGrid(N_COLS, gridAdress, cellWidth);
     printf("\n");
 
     while(!isGameOver){
         isGameOver = play(currentPlayer, N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
+        turn = turn + 1;
     }
 }
 
@@ -69,6 +81,7 @@ void displayGrid(int N_COLS, int *grid, int cellWidth){
 
     int i, j, space, currentCell;
 
+    printf("\n");
     for (i=0; i < N_COLS; i++){
 
         for(j=0; j < N_COLS; j++){
@@ -98,6 +111,19 @@ void displayGrid(int N_COLS, int *grid, int cellWidth){
         }
         printf("\n");
     }
+
+    printf("  ");
+    for (i=0; i<N_COLS; i++){
+
+        printf("%d", i+1);
+        for (j=0; j<=cellWidth; j++){
+            printf(" ");
+        }
+
+
+
+    }
+    printf("\n");
 }
 
 
@@ -127,7 +153,6 @@ int getFirstPlayer() {
 
     alea = rand()%2 + 1;
 
-    printf("%s", "helli");
 
     if (alea == 1){
         player = PLAYER_ONE;

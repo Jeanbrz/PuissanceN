@@ -22,7 +22,7 @@ int displayMenu(){
            "3-Quitter\n"
            "Que voulez vous faire :");
 
-    scanf("%c", menuChoice);
+    scanf("%s", menuChoice);
 
     //Vérrification du caractère numérique et de la cohérence de la saisie :
     isValid = isNumeric(menuChoice);
@@ -38,7 +38,7 @@ int displayMenu(){
                "3-Quitter\n"
                "Que voulez vous faire :");
 
-        scanf("%c", menuChoice);
+        scanf("%s", menuChoice);
         isValid = isNumeric(menuChoice);
 
         if (atoi(menuChoice) < 1 || atoi(menuChoice) > 3){
