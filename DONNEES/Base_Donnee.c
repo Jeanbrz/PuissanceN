@@ -11,12 +11,17 @@
  * @param N
  * @return
  */
-int init_donnees(int N, int table_donnees[N+1][N+1]){
-
+int init_donnees(int N_COLS, int *table_donnees){
     int i, j;
-    for(i=0; i<=N+1; i++){
-        for(j=0; j<=N+1; j++){
-            table_donnees[i][j] = 0;
+    for(i=0; i < N_COLS; i++){
+        for(j=0; j< N_COLS ; j++) {
+            // Si on est par exemple à la 4e ligne et 2e colonne,
+            // l'adresse de la cellule est égal à :
+            // table_donnees + 4 * 6 + 2
+            int *currentCellAdress = table_donnees + i * (N_COLS) + j;
+            *(currentCellAdress) = 0;
         }
     }
+
+    return 0;
 }

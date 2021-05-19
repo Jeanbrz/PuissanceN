@@ -2,37 +2,49 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "Affichage.h"
+#include "../AFFICHAGE/Affichage.h"
+#include "../AFFICHAGE/userInput.h"
 #include "Logique.h"
 
-bool play(int currentPlayer, int N, int grid[N+2][N+2]) {
+bool play(int currentPlayer, int N_COLS, int *grid) {
 
     int j, choice;
 
     printf("Joueur %d a vous de jouer\n", currentPlayer);
-    choice = gameChoice();
+    // choice = gameChoice();
+    choice = 1;
+
     if (choice==1) {
-        j = columnChoice(N);
-        addValue(j, N, grid, currentPlayer);
+        j = columnChoice(N_COLS);
+        addValue(j, N_COLS, grid, currentPlayer);
     }
     return false;
 }
 
 
-int addValue(int j, int N, int gridToUpdate[N+1][N+1], int currentPlayer) {
+int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer) {
 
-    int i=N+1;
+    int i = N_COLS - 1, currentCell, *currentCellAdress;
 
-    printf("N = %d, j = %d\n", N, j);
-    while (gridToUpdate[i][j] != 0) {
+    printf("N = %d, j = %d\n", N_COLS - 2, j);
 
-        if ((i == 0) && (gridToUpdate[i][j] != 0)) {
+    currentCellAdress = gridToUpdate + i * N_COLS + j;
+    currentCell = *(currentCellAdress);
+    while (currentCell != 0) {
+        if ((i == 0) && (currentCell != 0)) {
 
             printf("veuillez resaisir une colonne\n");
-            j = columnChoice(N);
-            i = N+1;
+            j = columnChoice(N_COLS);
+            i =  N_COLS - 1;
         }
         i = i - 1;
+
+        currentCellAdress = gridToUpdate + i * N_COLS + j;
+        currentCell = *(currentCellAdress);
     }
-    gridToUpdate[i][j]= currentPlayer;
+
+    *(currentCellAdress) = currentPlayer;
+    displayGrid(N_COLS, gridToUpdate, 2);
+
+    return 0;
 }

@@ -1,5 +1,5 @@
 #include <stdbool.h>
 
-bool play(int currentPlayer, int N, int grid[N+1][N+1]);
+bool play(int currentPlayer, int N_COLS, int *grid);
 
-int addValue(int j, int N, int gridToUpdate[N+1][N+1], int currentPlayer);
+int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer);

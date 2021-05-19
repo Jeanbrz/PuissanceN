@@ -19,86 +19,76 @@
  */
 int initUserInterface(){
 
-    int menuChoice;
+    playGame();
 
-    menuChoice = displayMenu();
-
-    //Choix de la suite du programme en fonction de la saisie :
-    switch (menuChoice) {
-        case 1:
-            //charger_partie();
-            break;
-        case 2:
-            playGame();
-            break;
-        case 3:
-            printf("\n A bientot pour de nouvelles aventures\n");
-            return 0;
-    }
+    return 0;
 }
 
 /**
  * Saisie le nombre de jettons, initialise les données et la grille
  */
 void playGame(){
-    
+
     bool isValid = true, isGameOver = false;
-    char tokenNumber[]="";
-    int N, cellWidth, currentPlayer;
+    char tokenNumber[] = "";
+    int N, N_COLS, cellWidth, currentPlayer;
 
     //Saisie du nombre de jettons :
-    printf("\nSaisir le nombre de jettons pour jouer :\n");
-    scanf("%s", &tokenNumber);
+    printf("\nSaisir le nombre de jetons pour jouer :\n");
+    scanf("%c", tokenNumber);
 
-    //Vérrification du caractère numérique et de la cohérence de la saisie :
-    isValid = isNumeric(tokenNumber);
-    if(atoi(tokenNumber) < 2){
-        isValid=false;
-    }
-    while(isValid!=true){
-        printf("\nERREUR-Saisissez une valeur num%crique jouable (>=2) :\n", 130);
-        scanf("%s", &tokenNumber);
-        isValid = isNumeric(tokenNumber);
-        if(atoi(tokenNumber) < 2){
-            isValid=false;
-        }
-    }
+    // J'ai forcé N à valoir 4 pour simplifier mes tests
+    N = 4;
 
-    N = atoi(tokenNumber);
-    int gridStatus[N+1][N+1];
+    // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
+    N_COLS = N + 2;
 
-    currentPlayer = getFirstPlayer();
-    cellWidth=2;
+    // pareil j'ai forcé le currentPlayer
+    //currentPlayer = getFirstPlayer();
+    currentPlayer = 2;
 
-    //Initailisation à 0 des cases de gridStatus :
-    init_donnees(N, gridStatus);
+    cellWidth = 2;
+
+    // on crée le tableau une bonne fois pour toutes en mémoire
+    int gridStatus[N_COLS][N_COLS];
+
+    // On crée un pointeur sur le premier élémént du tableau
+    int *gridAdress = &gridStatus[0][0];
+
+    //Initailisation à 0 des cases de gridStatus
+    init_donnees(N_COLS, gridAdress);
+    displayGrid(N_COLS, gridAdress, 2);
+    printf("\n");
 
     while(!isGameOver){
-        displayGrid(N, gridStatus, cellWidth);
-        isGameOver = play(currentPlayer, N, gridStatus);
+        //displayGrid(N, gridStatus, cellWidth);
+        printf("\ncoucou: %d\n", N);
+        isGameOver = play(currentPlayer, N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
     }
 }
 
-void displayGrid(int N, int grid[N+1][N+1], int cellWidth){
+void displayGrid(int N_COLS, int *grid, int cellWidth){
 
-    int i, j, space;
+    int i, j, space, currentCell;
 
-    for (i=0; i<=N+1; i++){
+    for (i=0; i < N_COLS; i++){
 
-        for(j=0; j<=N+1; j++){
+        for(j=0; j < N_COLS; j++){
             space=0;
 
             if (j == 0){
                 printf("|");
             }
-            if(grid[i][j]==0){
+
+            currentCell = *(grid + i * (N_COLS) + j);
+            if(currentCell == 0){
                 printf(" ");
             }
-            if(grid[i][j]==1){
+            if(currentCell == 1){
                 printf("X");
             }
-            if(grid[i][j]==2){
+            if(currentCell == 2){
                 printf("O");
             }
 
@@ -119,7 +109,7 @@ int getCellWidth(int N){
     char NChar[]="";
     int width = 0;
 
-    itoa(N+2, NChar, 10);
+    sprintf(NChar, "%d", N + 2);
     if (strlen(NChar)%2 == 0){
         width = strlen(NChar)+1;
     } else {
@@ -131,17 +121,23 @@ int getCellWidth(int N){
 
 int getFirstPlayer() {
 
-    int alea, player;
-    srand(time(0));
+    int alea = 0, player = 0;
+
+    srand(time(NULL));
 
     printf("\n........TIRAGE AU SORT.........\n");
     printf("...............................\n");
-    alea = rand()%2+1;
-    if (alea==1){
+
+    alea = rand()%2 + 1;
+
+    printf("%s", "helli");
+
+    if (alea == 1){
         player = PLAYER_ONE;
     } else {
         player = PLAYER_TWO;
     }
+
     return player;
 }
 
@@ -156,5 +152,8 @@ int getNextPlayer(int currentPlayer) {
 
     return nextPlayer;
 }
+
+
+
 
 
