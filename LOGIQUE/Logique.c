@@ -11,8 +11,7 @@ bool play(int currentPlayer, int N_COLS, int *grid) {
     int j, choice;
 
     printf("Joueur %d a vous de jouer\n", currentPlayer);
-    // choice = gameChoice();
-    choice = 1;
+    choice = gameChoice();
 
     if (choice==1) {
         j = columnChoice(N_COLS);
@@ -25,8 +24,6 @@ bool play(int currentPlayer, int N_COLS, int *grid) {
 int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer) {
 
     int i = N_COLS - 1, currentCell, *currentCellAdress;
-
-    printf("N = %d, j = %d\n", N_COLS - 2, j);
 
     currentCellAdress = gridToUpdate + i * N_COLS + j;
     currentCell = *(currentCellAdress);

@@ -19,6 +19,7 @@
  */
 int initUserInterface(){
 
+
     playGame();
 
     return 0;
@@ -37,16 +38,14 @@ void playGame(){
     printf("\nSaisir le nombre de jetons pour jouer :\n");
     scanf("%c", tokenNumber);
 
-    // J'ai forcé N à valoir 4 pour simplifier mes tests
-    N = 4;
+    N = atoi(tokenNumber);
 
     // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
     N_COLS = N + 2;
 
-    // pareil j'ai forcé le currentPlayer
-    //currentPlayer = getFirstPlayer();
-    currentPlayer = 2;
+    currentPlayer = getFirstPlayer();
 
+    //getCellWidth
     cellWidth = 2;
 
     // on crée le tableau une bonne fois pour toutes en mémoire
@@ -61,8 +60,6 @@ void playGame(){
     printf("\n");
 
     while(!isGameOver){
-        //displayGrid(N, gridStatus, cellWidth);
-        printf("\ncoucou: %d\n", N);
         isGameOver = play(currentPlayer, N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
     }
