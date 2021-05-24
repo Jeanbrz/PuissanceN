@@ -9,6 +9,7 @@
 #include "../LOGIQUE/Logique.h"
 #include "../UTILS/Utils.h"
 #include "Affichage.h"
+#include "userInput.h"
 
 #define PLAYER_ONE 1
 #define PLAYER_TWO 2
@@ -19,19 +20,28 @@
  */
 int initUserInterface(){
 
-    int answer;
+    int answer, playerNumber, gameMode;
 
     answer = displayMenu();
+
     switch (answer) {
 
         case 1 :
 
-        case 2 : playGame(); break;
+        case 2 :
+            playerNumber = getPlayerNumber();
+            if (playerNumber == 1){
+                gameMode = 1;
+                playGame(gameMode);
+            }else{
+                gameMode = 2;
+                playGame(gameMode);
+            }
+             break;
 
-        case 3 : printf("\nA bientot pour de nouvelle avantures ! \n"); return 0; break;
+        case 3 : printf("\nA bientot pour de nouvelle avantures ! \n"); return 0;
 
     }
-
 
     return 0;
 }
@@ -39,7 +49,7 @@ int initUserInterface(){
 /**
  * Saisie le nombre de jettons, initialise les données et la grille
  */
-void playGame(){
+void playGame(int gameMode){
 
     bool isValid = true, isGameOver = false;
     char tokenNumber[] = "";
@@ -48,7 +58,6 @@ void playGame(){
     //Saisie du nombre de jettons :
     printf("\nSaisir le nombre de jetons pour jouer :\n");
     scanf("%s", tokenNumber);
-
     N = atoi(tokenNumber);
 
     // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
@@ -67,7 +76,7 @@ void playGame(){
 
     //Initailisation à 0 des cases de gridStatus
     init_donnees(N_COLS, gridAdress);
-    displayGrid(N_COLS, gridAdress, cellWidth);
+    displayGrid(N_COLS, gridAdress, cellWidth, turn);
     printf("\n");
 
     while(!isGameOver){
@@ -77,11 +86,11 @@ void playGame(){
     }
 }
 
-void displayGrid(int N_COLS, int *grid, int cellWidth){
+void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
 
     int i, j, space, currentCell;
 
-    printf("\n");
+    printf("\n Tour n°%d", turn);
     for (i=0; i < N_COLS; i++){
 
         for(j=0; j < N_COLS; j++){
