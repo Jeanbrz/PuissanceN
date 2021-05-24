@@ -120,6 +120,13 @@ int checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
         printf("bravo joueur %d, vous avez win\n", currentPlayer);
     }
+
+    int above=0, below=0;
+    int *aboveAdress=&above, *belowAdress=&below;
+    checkVertically(i, j, N_COLS, gridCheck, currentPlayer, aboveAdress, belowAdress);
+
+
+
 }
 
 void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *rightAdress, int *leftAdress) {
@@ -161,5 +168,15 @@ void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlaye
 
     *leftAdress = currentLeft;
     *rightAdress = currentRight;
+
+}
+
+void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *aboveAdress, int *belowAdress) {
+
+    int currentCell, *currentCellAdress, iCell, stock = i, currentAbove=*aboveAdress, currentBelow=*belowAdress;
+
+    iCell = i+1;
+    currentCellAdress = gridCheck + i * N_COLS + iCell;
+    currentCell = *(currentCellAdress);
 
 }
