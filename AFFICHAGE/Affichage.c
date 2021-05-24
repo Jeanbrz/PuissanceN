@@ -76,7 +76,10 @@ void playGame(int gameMode){
 
     //Initailisation à 0 des cases de gridStatus
     init_donnees(N_COLS, gridAdress);
-    displayGrid(N_COLS, gridAdress, cellWidth, turn);
+
+    if (gameMode == 2 || currentPlayer == 1){
+        displayGrid(N_COLS, gridAdress, cellWidth, turn);
+    }
     printf("\n");
 
     while(!isGameOver){

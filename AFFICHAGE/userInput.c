@@ -86,9 +86,12 @@ int gameChoice(int turn, int gameMode, int currentPlayer){
 
     if(gameMode == 1 && currentPlayer == 2){
 
-        intChoice = rand()%2+1;
-
-
+        if (turn == 0){
+            intChoice = 1;
+        } else {
+            intChoice = rand()%2+1;
+        }
+        printf("choix machine : %d\n", intChoice);
     } else {
 
         if (turn ==0){
@@ -134,18 +137,19 @@ int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
 
     if (gameMode == 1 && currentPlayer == 2){
 
-        do{
-            rep = rand()%N_COLS+1;
-        }while (rep < 0 || rep > (N_COLS));
+        rep = rand()%N_COLS+1;
 
-    }
-    printf("Dans quelle colonne voulez vous jouer ?\n");
-    scanf("%d", &rep);
+    } else {
 
-    while (rep < 0 || rep > (N_COLS)) {
-        printf("veuillez saisir une valeur comprise entre 1 et %d \n", N_COLS);
+        printf("Dans quelle colonne voulez vous jouer ?\n");
         scanf("%d", &rep);
+
+        while (rep < 0 || rep > (N_COLS)) {
+            printf("veuillez saisir une valeur comprise entre 1 et %d \n", N_COLS);
+            scanf("%d", &rep);
+        }
     }
+
     rep = rep-1;
     return rep;
 }
