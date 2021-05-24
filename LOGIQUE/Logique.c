@@ -41,7 +41,9 @@ int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, 
 
         if ((i == 0) && (currentCell != 0)) {
 
-            printf("veuillez resaisir une colonne\n");
+            if(gameMode==2 || currentPlayer==1){
+                printf("veuillez resaisir une colonne\n");
+            }
             j = columnChoice(N_COLS, gameMode, currentPlayer);
             i =  N_COLS;
         }
@@ -71,8 +73,10 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
         while (currentCell == 0) {
 
             if (i == N_COLS-1 ) {
+                if(gameMode==2 || currentPlayer == 1) {
+                    printf("veuillez resaisir une colonne\n");
+                }
 
-                printf("veuillez resaisir une colonne\n");
                 j = columnChoice(N_COLS, gameMode, currentPlayer);
                 i = N_COLS - 2;
             }
@@ -86,8 +90,11 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
         currentCell = *(currentCellAdress);
 
             if (currentCell == currentPlayer) {
+                if(gameMode==2 || currentPlayer == 1) {
+                    printf("Vous ne pouvez pas enlever votre propre jeton, veuillez resaisir une colonne valable\n");
+                }
 
-                printf("vous ne pouvez pas enlever votre propre jeton, veuillez resaisir une colonne valable\n");
+
                 j = columnChoice(N_COLS, gameMode,currentPlayer);
 
             }
@@ -104,39 +111,55 @@ return 0;
 
 int checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
-    int currentCell, *currentCellAdress, jCell=j+1, right = 0 , stock=j ;
+    int right=0, left=0;
+    int *rightAdress=&right, *leftAdress=&left;
 
+    checkHorizontaly(i, j, N_COLS, gridCheck, currentPlayer, rightAdress, leftAdress);
+
+    if (right+left+1>N_COLS-3) {
+
+        printf("bravo joueur %d, vous avez win\n", currentPlayer);
+    }
+}
+
+void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *rightAdress, int *leftAdress) {
+
+    int currentCell, *currentCellAdress, jCell, stock = j, currentRight=*rightAdress, currentLeft=*leftAdress;
+
+    jCell = j+1;
     currentCellAdress = gridCheck + i * N_COLS + jCell;
     currentCell = *(currentCellAdress);
 
-    while (currentCell == currentPlayer && jCell<N_COLS) {
 
-        right = right + 1;
+    while (currentCell == currentPlayer && jCell < N_COLS+1) {
+
+        currentRight = currentRight + 1;
         jCell = jCell + 1;
 
         currentCellAdress = gridCheck + i * N_COLS + jCell;
         currentCell = *(currentCellAdress);
-}
-    printf("\n compteur joueur droite %d : %d \n", currentPlayer, right);
+    }
 
-    int left=0;
-    jCell=stock-1;
+    printf("\n compteur joueur droite %d : %d \n", currentPlayer, currentRight);
+
+
+    jCell = stock - 1;
 
     currentCellAdress = gridCheck + i * N_COLS + jCell;
     currentCell = *(currentCellAdress);
 
-    while (currentCell == currentPlayer && jCell>0) {
+    while (currentCell == currentPlayer && jCell > -1) {
 
-        left = left + 1;
+        currentLeft = currentLeft + 1;
         jCell = jCell - 1;
 
         currentCellAdress = gridCheck + i * N_COLS + jCell;
         currentCell = *(currentCellAdress);
     }
 
-    printf("\n compteur joueur gauche %d : %d \n", currentPlayer, left);
+    printf("\n compteur joueur gauche %d : %d \n", currentPlayer, currentLeft);
 
-
-
+    *leftAdress = currentLeft;
+    *rightAdress = currentRight;
 
 }
