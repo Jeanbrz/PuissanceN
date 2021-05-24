@@ -80,7 +80,7 @@ void playGame(int gameMode){
     printf("\n");
 
     while(!isGameOver){
-        isGameOver = play(currentPlayer, N_COLS, gridAdress);
+        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn);
         currentPlayer = getNextPlayer(currentPlayer);
         turn = turn + 1;
     }
@@ -90,7 +90,7 @@ void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
 
     int i, j, space, currentCell;
 
-    printf("\n Tour n°%d", turn);
+    printf("\n Tour %d\n", turn+1);
     for (i=0; i < N_COLS; i++){
 
         for(j=0; j < N_COLS; j++){
