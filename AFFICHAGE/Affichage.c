@@ -86,6 +86,7 @@ void playGame(int gameMode){
     }
 }
 
+
 void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
 
     int i, j, space, currentCell;
@@ -128,9 +129,6 @@ void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
         for (j=0; j<=cellWidth; j++){
             printf(" ");
         }
-
-
-
     }
     printf("\n");
 }

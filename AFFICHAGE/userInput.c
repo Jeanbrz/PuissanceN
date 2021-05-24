@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "time.h"
 
 #include "Affichage.h"
 #include "../DONNEES/Base_Donnee.h"
@@ -76,48 +77,68 @@ int getPlayerNumber(){
     return atoi(playerNumber);
 }
 
-int gameChoice(int turn){
+int gameChoice(int turn, int gameMode, int currentPlayer){
 
     char choice[]="";
+    int intChoice;
     bool isValid;
+    srand(time(0));
 
-    if (turn ==0){
-        printf("Que voulez-vous faire ?\n"
-               "1 : Poser un jetton\n");
-        scanf("%s", choice);
+    if(gameMode == 1 && currentPlayer == 2){
 
-        //Vérifications de la saisie :
-        isValid = isNumeric(choice);
-        while(isValid!=true){
-            printf("ERREUR - Que voulez-vous faire ?\n"
+        intChoice = rand()%2+1;
+
+
+    } else {
+
+        if (turn ==0){
+            printf("Que voulez-vous faire ?\n"
                    "1 : Poser un jetton\n");
             scanf("%s", choice);
+
+            //Vérifications de la saisie :
             isValid = isNumeric(choice);
-        }
-    }else {
+            while(isValid!=true){
+                printf("ERREUR - Que voulez-vous faire ?\n"
+                       "1 : Poser un jetton\n");
+                scanf("%s", choice);
+                isValid = isNumeric(choice);
+            }
+        }else {
 
-        printf("Que voulez-vous faire ?\n"
-                  "1 : Poser un jetton\n"
-                  "2 : Enlever un jetton\n");
-        scanf("%s", choice);
-
-        //Vérifications de la saisie :
-        isValid = isNumeric(choice);
-        while(isValid!=true){
-            printf("ERREUR - Que voulez-vous faire ?\n"
+            printf("Que voulez-vous faire ?\n"
                    "1 : Poser un jetton\n"
                    "2 : Enlever un jetton\n");
             scanf("%s", choice);
-            isValid = isNumeric(choice);
-        }}
 
-    return atoi(choice);
+            //Vérifications de la saisie :
+            isValid = isNumeric(choice);
+            while(isValid!=true){
+                printf("ERREUR - Que voulez-vous faire ?\n"
+                       "1 : Poser un jetton\n"
+                       "2 : Enlever un jetton\n");
+                scanf("%s", choice);
+                isValid = isNumeric(choice);
+            }
+        }
+        intChoice = atoi(choice);
+    }
+
+    return intChoice;
 }
 
-int columnChoice(int N_COLS) {
+int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
 
     int rep;
+    srand(time(0));
 
+    if (gameMode == 1 && currentPlayer == 2){
+
+        do{
+            rep = rand()%N_COLS+1;
+        }while (rep < 0 || rep > (N_COLS));
+
+    }
     printf("Dans quelle colonne voulez vous jouer ?\n");
     scanf("%d", &rep);
 
