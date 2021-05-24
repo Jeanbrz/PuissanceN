@@ -6,26 +6,31 @@
 #include "../AFFICHAGE/userInput.h"
 #include "Logique.h"
 
-bool play(int currentPlayer, int N_COLS, int *grid, int turn) {
+bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
 
     int j, choice;
 
-    printf("Joueur %d a vous de jouer\n", currentPlayer);
-    choice = gameChoice(turn);
+    if (gameMode == 1 && currentPlayer== 2) {
+        printf("Ordinateur : \n");
+    } else {
+        printf("Joueur %d a vous de jouer\n", currentPlayer);
+    }
+
+    choice = gameChoice(turn, gameMode, currentPlayer);
 
     if (choice==1) {
-        j = columnChoice(N_COLS);
-        addValue(j, N_COLS, grid, currentPlayer, turn);
+        j = columnChoice(N_COLS, gameMode, currentPlayer);
+        addValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
     }
     if (choice==2){
-        j = columnChoice(N_COLS);
-        deleteValue(j, N_COLS, grid, currentPlayer, turn);
+        j = columnChoice(N_COLS, gameMode, currentPlayer);
+        deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
     }
     return false;
 }
 
 
-int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn) {
+int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode) {
 
     int i = N_COLS - 1, currentCell, *currentCellAdress;
 
@@ -37,7 +42,7 @@ int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn) 
         if ((i == 0) && (currentCell != 0)) {
 
             printf("veuillez resaisir une colonne\n");
-            j = columnChoice(N_COLS);
+            j = columnChoice(N_COLS, gameMode, currentPlayer);
             i =  N_COLS;
         }
         i = i - 1;
@@ -54,7 +59,7 @@ int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn) 
     return 0;
 }
 
-int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int turn) {
+int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int gameMode) {
 
     int i = 0, currentCell, *currentCellAdress;
 
@@ -68,7 +73,7 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
             if (i == N_COLS-1 ) {
 
                 printf("veuillez resaisir une colonne\n");
-                j = columnChoice(N_COLS);
+                j = columnChoice(N_COLS, gameMode, currentPlayer);
                 i = N_COLS - 2;
             }
 
@@ -83,7 +88,7 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
             if (currentCell == currentPlayer) {
 
                 printf("vous ne pouvez pas enlever votre propre jeton, veuillez resaisir une colonne valable\n");
-                j = columnChoice(N_COLS);
+                j = columnChoice(N_COLS, gameMode,currentPlayer);
 
             }
 
@@ -99,30 +104,39 @@ return 0;
 
 int checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
-    int currentCell, *currentCellAdress,inc, right=0;
+    int currentCell, *currentCellAdress, jCell=j+1, right = 0 , stock=j ;
 
-    printf("%d\n", j );
-    printf("%d\n", N_COLS );
-    printf("%d\n", currentPlayer );
+    currentCellAdress = gridCheck + i * N_COLS + jCell;
+    currentCell = *(currentCellAdress);
 
+    while (currentCell == currentPlayer && jCell<N_COLS) {
 
-    for (inc=j+1; inc<j+1+N_COLS-2; inc++) {
+        right = right + 1;
+        jCell = jCell + 1;
 
-        currentCellAdress = gridCheck + inc * N_COLS + j;
+        currentCellAdress = gridCheck + i * N_COLS + jCell;
         currentCell = *(currentCellAdress);
+}
+    printf("\n compteur joueur droite %d : %d \n", currentPlayer, right);
 
-        if (currentCell==currentPlayer) {
+    int left=0;
+    jCell=stock-1;
 
-            right = right + 1;
+    currentCellAdress = gridCheck + i * N_COLS + jCell;
+    currentCell = *(currentCellAdress);
+
+    while (currentCell == currentPlayer && jCell>0) {
+
+        left = left + 1;
+        jCell = jCell - 1;
+
+        currentCellAdress = gridCheck + i * N_COLS + jCell;
+        currentCell = *(currentCellAdress);
     }
 
-        currentCellAdress = gridCheck + inc * N_COLS + j;
-        currentCell = *(currentCellAdress);
+    printf("\n compteur joueur gauche %d : %d \n", currentPlayer, left);
 
-    }
 
-    printf("\n compteur : %d \n", right);
 
 
 }
-

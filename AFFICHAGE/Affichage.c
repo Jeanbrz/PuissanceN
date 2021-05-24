@@ -80,7 +80,7 @@ void playGame(int gameMode){
     printf("\n");
 
     while(!isGameOver){
-        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn);
+        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode);
         currentPlayer = getNextPlayer(currentPlayer);
         turn = turn + 1;
     }
