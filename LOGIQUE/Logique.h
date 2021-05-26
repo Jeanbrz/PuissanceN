@@ -10,4 +10,6 @@ int checkWin (int N, int j, int N_COLS, int *gridCheck, int currentPlayer);
 
 void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *rightAdress, int *leftAdress);
 
-void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *aboveAdress, int *belowAdress);
+void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *belowAdress);
+
+void checkDiagonal(int i,int j,int N_COLS,int *gridCheck,int currentPlayer, int *aboveRightAdress, char direction[]);
