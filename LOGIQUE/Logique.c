@@ -69,6 +69,7 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
     currentCellAdress = gridToUpDown + i * N_COLS + j;
     currentCell = *(currentCellAdress);
     printf("currentPlayer : %d\n", currentPlayer);
+
     while (currentCell!=getNextPlayer(currentPlayer)) {
 
         printf("currentPlayer : %d\n", currentPlayer);
@@ -76,12 +77,14 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
         while (currentCell == 0) {
 
             if (i == N_COLS-1 ) {
+
                 if(gameMode==2 || currentPlayer == 1) {
+
                     printf("veuillez resaisir une colonne\n");
                 }
 
                 j = columnChoice(N_COLS, gameMode, currentPlayer);
-                i = N_COLS - 2;
+                i = -1;
             }
 
             i = i + 1;
