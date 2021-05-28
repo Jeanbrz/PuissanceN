@@ -93,7 +93,7 @@ int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed){
         printf("choix machine : %d\n", intChoice);
     } else {
 
-        if (turn ==0){
+        if (turn ==0 || deleteAllowed==false ){
             printf("Que voulez-vous faire ?\n"
                    "1 : Poser un jetton\n");
             scanf("%s", choice);

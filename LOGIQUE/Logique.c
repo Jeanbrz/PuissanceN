@@ -10,30 +10,36 @@
 bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
 
     int j, choice;
+    bool isGameOver = false;
 
     if (gameMode == 1 && currentPlayer== 2) {
         printf("Ordinateur : \n");
     } else {
         printf("Joueur %d a vous de jouer\n", currentPlayer);
     }
+    if (deleteAllowed(N_COLS, grid, currentPlayer)==true){
 
-    choice = gameChoice(turn, gameMode, currentPlayer);
+        choice = gameChoice(turn, gameMode, currentPlayer, true);
+    } else {
+        choice = gameChoice(turn, gameMode, currentPlayer, false);
+    }
 
     if (choice==1) {
         j = columnChoice(N_COLS, gameMode, currentPlayer);
-        addValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
+        isGameOver = addValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
     }
     if (choice==2){
         j = columnChoice(N_COLS, gameMode, currentPlayer);
         deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
     }
-    return false;
+    return isGameOver;
 }
 
 
-int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode) {
+bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode) {
 
     int i = N_COLS - 1, currentCell, *currentCellAdress;
+    bool isWin;
 
     currentCellAdress = gridToUpdate + i * N_COLS + j;
     currentCell = *(currentCellAdress);
@@ -56,10 +62,9 @@ int addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, 
 
     *(currentCellAdress) = currentPlayer;
     displayGrid(N_COLS, gridToUpdate, 2, turn);
-    checkWin (i, j, N_COLS, gridToUpdate, currentPlayer);
+    isWin = checkWin (i, j, N_COLS, gridToUpdate, currentPlayer);
 
-
-    return 0;
+    return isWin;
 }
 
 int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int gameMode) {
@@ -85,6 +90,7 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
 
                 j = columnChoice(N_COLS, gameMode, currentPlayer);
                 i = -1;
+
             }
 
             i = i + 1;
@@ -114,7 +120,7 @@ return 0;
 
 }
 
-int checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
+bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
     int right=0, left=0;
     int *rightAdress=&right, *leftAdress=&left;
@@ -135,9 +141,10 @@ int checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
     if (right+left+1>N_COLS-3 || below+1>N_COLS-3 || aboveRight>N_COLS-3 || aboveLeft>N_COLS-3) {
 
         printf("bravo joueur %d, vous avez win\n", currentPlayer);
+        return true;
 
     }
-    return 0;
+    return false;
 }
 
 
@@ -209,52 +216,83 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
     int iCell=i, jCell=j, currentCell, stockj=j, *currentCellAdress, currentAbove = *aboveAdress, jCellModif;
 
 
-    if (strcmp(direction, "right")) {
+        if (strcmp(direction, "right")) {
         jCellModif=1;
 
-    } else {
+        } else {
+
         jCellModif=-1;
-    }
 
-    /* if (jCell==N_COLS || jCell==0) {
-
-
-
-        while (iCell!=N_COLS-1) {
-            iCell=iCell+1;
-            jCell=jCell-jCellModif;
         }
 
-    } else { */
 
         while (iCell!=N_COLS-1 && jCell>=0 && jCell<=N_COLS-1) {
             iCell=iCell+1;
             jCell=jCell-jCellModif;
         }
-    // }
 
-
-    currentCellAdress = gridCheck + iCell * N_COLS + jCell;
-    currentCell = *(currentCellAdress);
-
-    while (currentAbove<N_COLS-2 && iCell>-1 && -1<jCell<N_COLS+1) {
-
-        if (currentCell==currentPlayer) {
-
-            currentAbove = currentAbove + 1;
-
-        } else {
-            currentAbove = 0;
-        }
-
-        iCell=iCell-1;
-        jCell=jCell+jCellModif;
 
         currentCellAdress = gridCheck + iCell * N_COLS + jCell;
         currentCell = *(currentCellAdress);
 
-    }
+        while (currentAbove<N_COLS-2 && iCell>-1 && -1<jCell<N_COLS+1) {
+
+            if (currentCell==currentPlayer) {
+
+            currentAbove = currentAbove + 1;
+
+             } else {
+            currentAbove = 0;
+             }
+
+            iCell=iCell-1;
+            jCell=jCell+jCellModif;
+
+            currentCellAdress = gridCheck + iCell * N_COLS + jCell;
+            currentCell = *(currentCellAdress);
+
+        }
 
     *aboveAdress = currentAbove;
+}
+
+bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
+
+    int i=0,j=0, currentCell, *currentCellAdress, compteur;
+
+    currentCellAdress= gridCheck + i * N_COLS + j;
+    currentCell=*(currentCellAdress);
+
+    for (j=0; j<N_COLS+1; j++) {
+
+        while (currentCell==0 && i<N_COLS+1){
+            i = i-1;
+            currentCellAdress= gridCheck + i * N_COLS + j;
+            currentCell=*(currentCellAdress);
+
+            if (i==N_COLS) {
+                compteur = compteur + 1;
+            }
+
+        }
+
+            if (currentCell==currentPlayer) {
+            compteur = compteur + 1;
+
+            } else {
+
+            return false;
+            }
+    }
+
+    if (compteur > 3){
+
+        return true;
+
+    } else {
+
+        return false;
+    }
+
 }
 
