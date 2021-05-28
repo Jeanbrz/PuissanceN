@@ -76,7 +76,7 @@ int getPlayerNumber(){
     return atoi(playerNumber);
 }
 
-int gameChoice(int turn, int gameMode, int currentPlayer){
+int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed){
 
     char choice[]="";
     int intChoice;
