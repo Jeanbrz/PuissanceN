@@ -21,12 +21,28 @@
 int initUserInterface(){
 
     int answer, playerNumber, gameMode;
+    FILE* lastGame = NULL;
 
     answer = displayMenu();
 
     switch (answer) {
 
         case 1 :
+            lastGame = fopen("saveLastGame.txt", "r");
+            if (lastGame != NULL){
+
+            }else{
+                printf("\nAucune ancienne partie chargee");
+                playerNumber = getPlayerNumber();
+                if (playerNumber == 1){
+                    gameMode = 1;
+                    playGame(gameMode);
+                }else{
+                    gameMode = 2;
+                    playGame(gameMode);
+                }
+            }
+             break;
 
         case 2 :
             playerNumber = getPlayerNumber();
@@ -42,7 +58,6 @@ int initUserInterface(){
         case 3 : printf("\nA bientot pour de nouvelle avantures ! \n"); return 0;
 
     }
-
     return 0;
 }
 

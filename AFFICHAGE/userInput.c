@@ -73,7 +73,6 @@ int getPlayerNumber(){
             isValid =false;
         }
     }
-
     return atoi(playerNumber);
 }
 
@@ -153,5 +152,3 @@ int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
     rep = rep-1;
     return rep;
 }
-
-
