@@ -33,10 +33,10 @@ int initUserInterface(){
                 playerNumber = getPlayerNumber();
                 if (playerNumber == 1){
                     gameMode = 1;
-                    playGame(gameMode);
+                    playGame(gameMode, lastGame);
                 }else{
                     gameMode = 2;
-                    playGame(gameMode);
+                    playGame(gameMode, lastGame);
                 }
             }
              break;
@@ -45,10 +45,10 @@ int initUserInterface(){
             playerNumber = getPlayerNumber();
             if (playerNumber == 1){
                 gameMode = 1;
-                playGame(gameMode);
+                playGame(gameMode, lastGame);
             }else{
                 gameMode = 2;
-                playGame(gameMode);
+                playGame(gameMode, lastGame);
             }
              break;
 
@@ -59,10 +59,10 @@ int initUserInterface(){
 }
 
 
-void playGame(int gameMode){
+void playGame(int gameMode, FILE* lastGame){
 
     bool isGameOver = false;
-    int N, N_COLS, cellWidth, currentPlayer, turn = 0, jNotAllowed;
+    int N, N_COLS, cellWidth, currentPlayer, turn = 0, jNotAllowed = -1;
     int *jNotAllowedAdress = & jNotAllowed;
 
     N = getTokenNumber();
@@ -89,7 +89,7 @@ void playGame(int gameMode){
     printf("\n");
 
     while(!isGameOver){
-        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
+        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress, lastGame);
         currentPlayer = getNextPlayer(currentPlayer);
         turn = turn + 1;
     }

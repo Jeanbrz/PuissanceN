@@ -1,6 +1,6 @@
 int initUserInterface();
 
-void playGame(int gameMode);
+void playGame(int gameMode, FILE* lastgame);
 
 int getCellWidth(int N);
 

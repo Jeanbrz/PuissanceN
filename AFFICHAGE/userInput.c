@@ -118,40 +118,63 @@ int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){
         } else {
             intChoice = rand()%2+1;
         }
-        printf("choix machine : %d\n", intChoice);
+        printf("Choix machine : %d\n", intChoice);
     } else {
 
         if (deleteAllowed==false){
             printf("Que voulez-vous faire ?\n"
-                   "1 : Poser un jetton\n");
+                   "1 : Poser un jetton\n"
+                   "3 : Sauvegarder\n");
             scanf("%s", choice);
 
-            //Vérifications de la saisie :
+            //Verrification de la saisie
+            intChoice = atoi(choice);
             isValid = isNumeric(choice);
+            if (intChoice<1 || intChoice>3 || intChoice ==2 ) {
+                isValid = false;
+            }
             while(isValid!=true){
                 printf("ERREUR - Que voulez-vous faire ?\n"
-                       "1 : Poser un jetton\n");
+                       "1 : Poser un jetton\n"
+                       "3 : Sauvegarder\n");
                 scanf("%s", choice);
+
+                intChoice = atoi(choice);
                 isValid = isNumeric(choice);
+                if (intChoice<1 || intChoice>3 || intChoice ==2 ) {
+                    isValid = false;
+                }
             }
         }else {
 
             printf("Que voulez-vous faire ?\n"
                    "1 : Poser un jetton\n"
-                   "2 : Enlever un jetton\n");
+                   "2 : Enlever un jetton\n"
+                   "3 : Sauvegarder\n");
             scanf("%s", choice);
 
             //Vérifications de la saisie :
+            intChoice = atoi(choice);
             isValid = isNumeric(choice);
+            if (intChoice<1 || intChoice>3){
+                isValid = false;
+            }
+
             while(isValid!=true){
-                printf("ERREUR - Que voulez-vous faire ?\n"
+                printf("Que voulez-vous faire ?\n"
                        "1 : Poser un jetton\n"
-                       "2 : Enlever un jetton\n");
+                       "2 : Enlever un jetton\n"
+                       "3 : Sauvegarder\n");
                 scanf("%s", choice);
+
+                //Vérifications de la saisie :
+                intChoice = atoi(choice);
                 isValid = isNumeric(choice);
+                if (intChoice<1 || intChoice>3){
+                    isValid = false;
+                }
             }
         }
-        intChoice = atoi(choice);
     }
 
     return intChoice;
@@ -173,7 +196,7 @@ int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
         scanf("%d", &rep);
 
         while (rep < 0 || rep > (N_COLS)) {
-            printf("veuillez saisir une valeur comprise entre 1 et %d \n", N_COLS);
+            printf("Veuillez saisir une valeur comprise entre 1 et %d \n", N_COLS);
             scanf("%d", &rep);
         }
     }
