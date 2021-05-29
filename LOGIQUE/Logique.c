@@ -176,6 +176,8 @@ return j;
  */
 bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
+    bool isWin;
+
     int right=0, left=0;
     int *rightAdress=&right, *leftAdress=&left;
 
@@ -195,10 +197,12 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
     if (right+left+1>N_COLS-3 || below+1>N_COLS-3 || aboveRight>N_COLS-3 || aboveLeft>N_COLS-3) {
 
         printf("bravo joueur %d, vous avez win\n", currentPlayer);
-        return true;
+        isWin= true;
 
+    } else {
+        isWin= false;
     }
-    return false;
+    return isWin;
 }
 
 /**
@@ -207,7 +211,7 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
    Après ceci, elle se repositionne sur la valeur ajoutée et compte sur la gauche le nombre de pion identique
    à la valeur ajoutée dans addValue (même opération). La fonction checkWin va vérifier si : compteurdroit + compteurgauche > NCOLS -2
 
- * @param *rightAdress : pointeur qui pointe sur l'adresse du compteur horizontal droit. Le compteur va être modifié
+ * @param *rightAdress : pointeur qui pointe sur le compteur horizontal droit. Le compteur va être modifié
                         a chaque appel de la fonction
  * @param *leftAdress : pointeur qui pointe sur l'adresse du compteur horizontal gauche. Le compteur va être modifié
                        a chaque appel de la fonction
@@ -252,9 +256,12 @@ void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlaye
     *rightAdress = currentRight;
 
 }
+
 /**
- *
- * @param belowAdress
+ * Fonction qui modifie le compteur below qui permet de savoir le nombre de jeton identique
+   en dessous du dernier jeton ajouté. La fonction checkWin va vérifier si : compteur_bas > NCOLS -2
+ * @param belowAdress : pointeur qui pointe sur le compteur vertical du bas (below). Le compteur va être modifié
+                        a chaque appel de la fonction.
  */
 
 void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *belowAdress) {
@@ -337,7 +344,7 @@ bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
 
     int i = 0, j , currentCell, *currentCellAdress, compteur=0;
 
-    for (j = 0; j < N_COLS ; j++) {
+    for (j = 0; j < N_COLS+1 ; j++) {
 
         currentCellAdress = gridCheck + i * N_COLS + j;
         currentCell = *(currentCellAdress);
@@ -368,19 +375,23 @@ bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
         return true;
     }
 }
-
+/**
+ * Fonction qui permet d'identifier un possible match nul. Si elle repère un match nul,
+   elle renverra un booléen vrai qui arretera le programme.
+ * @return
+ */
 bool isDrawGame (int currentPlayer, int N_COLS, int *grid) {
 
     int i = 0, j = 0, currentCell, *currentCellAdress, compteur = 0;
 
     currentCellAdress = grid + i * N_COLS + j;
     currentCell = *(currentCellAdress);
-
-    for (j = 0; j < N_COLS; j++) {
+printf("%d\n", N_COLS);
+    for (j = 0; j <= N_COLS; j++) {
 
         if (currentCell != 0) {
 
-            compteur++;
+            compteur=compteur+1;
         }
         currentCellAdress = grid + i * N_COLS + j;
         currentCell = *(currentCellAdress);
