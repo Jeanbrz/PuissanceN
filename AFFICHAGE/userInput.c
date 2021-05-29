@@ -104,7 +104,7 @@ int getTokenNumber(){
     return N;
 }
 
-int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed){
+int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){
 
     char choice[]="";
     int intChoice;
@@ -113,7 +113,7 @@ int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed){
 
     if(gameMode == 1 && currentPlayer == 2){
 
-        if (turn == 0){
+        if (deleteAllowed==false){
             intChoice = 1;
         } else {
             intChoice = rand()%2+1;
@@ -121,7 +121,7 @@ int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed){
         printf("choix machine : %d\n", intChoice);
     } else {
 
-        if (turn ==0 || deleteAllowed==false ){
+        if (deleteAllowed==false){
             printf("Que voulez-vous faire ?\n"
                    "1 : Poser un jetton\n");
             scanf("%s", choice);
@@ -189,8 +189,8 @@ int replay(){
     bool isValid;
 
     //Saisie du nombre de jettons :
-    printf("\nVoulez-vous rejouer ? "
-           "1 : Oui"
+    printf("\nVoulez-vous rejouer ? \n"
+           "1 : Oui\n"
            "2 : Non\n");
     scanf("%s", answer);
 
@@ -201,8 +201,8 @@ int replay(){
         isValid = false;
     }
     while(isValid!=true){
-        printf("\nVoulez-vous rejouer ? "
-               "1 : Oui"
+        printf("\nERREUR - Voulez-vous rejouer ? \n"
+               "1 : Oui\n"
                "2 : Non\n");
         scanf("%s", answer);
 

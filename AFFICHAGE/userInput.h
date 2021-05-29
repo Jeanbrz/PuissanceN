@@ -1,4 +1,4 @@
-int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed);
+int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed);
 
 int displayMenu();
 
