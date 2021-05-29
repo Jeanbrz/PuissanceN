@@ -7,6 +7,16 @@
 #include "../AFFICHAGE/userInput.h"
 #include "Logique.h"
 
+/**
+ * Fonction qui permet de gerer le bloc logique en appelant toutes les autres fonctions (check
+ * @param currentPlayer
+ * @param N_COLS
+ * @param grid
+ * @param turn
+ * @param gameMode
+ * @return
+ */
+
 bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
 
     int j, choice;
@@ -19,7 +29,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
     }
     isDeleteAllowed = deleteAllowed(N_COLS, grid, currentPlayer);
 
-    choice = gameChoice(turn, gameMode, currentPlayer, isDeleteAllowed);
+    choice = gameChoice(gameMode, currentPlayer, isDeleteAllowed);
 
 
     if (choice==1) {
@@ -34,13 +44,10 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
 }
 
 /**
- * On ajoute la valeur du joueur actuel (currentPlayer) dans le tableau tout en empechant
- * @param j
- * @param N_COLS
- * @param gridToUpdate
- * @param currentPlayer
- * @param turn
- * @param gameMode
+ * On ajoute la valeur du joueur actuel (currentPlayer) dans le tableau tout en empechant qu'il ajoute sur une colonne pleine
+ * @param j : le choix de colonne du joueur actuel
+ * @param N_COLS : la dimension de la grille (nbr jetons + 2)
+ * @param currentPlayer : joueur actuel (il vaut soit 1 ou 2)
  * @return
  */
 bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode) {
