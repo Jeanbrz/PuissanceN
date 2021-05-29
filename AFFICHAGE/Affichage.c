@@ -18,7 +18,8 @@
 int initUserInterface(){
 
     int answer, playerNumber, gameMode;
-    FILE* lastGame = NULL;
+
+    FILE* lastGame = fopen("saveLastGame.txt", "r");
 
     answer = displayMenu();
 
@@ -27,17 +28,20 @@ int initUserInterface(){
         case 1 :
 
             if (lastGame != NULL){
-
+                fseek(lastGame, 11, SEEK_SET);
+                fscanf(lastGame, "%d", &gameMode);
+                fclose(lastGame);
+                printf("game mode : %d\n", gameMode);
+                playGame(gameMode, false);
             }else{
                 printf("\nAucune ancienne partie chargee");
                 playerNumber = getPlayerNumber();
                 if (playerNumber == 1){
                     gameMode = 1;
-                    playGame(gameMode, lastGame);
                 }else{
                     gameMode = 2;
-                    playGame(gameMode, lastGame);
                 }
+                playGame(gameMode, true);
             }
              break;
 
@@ -45,10 +49,10 @@ int initUserInterface(){
             playerNumber = getPlayerNumber();
             if (playerNumber == 1){
                 gameMode = 1;
-                playGame(gameMode, lastGame);
+                playGame(gameMode, true);
             }else{
                 gameMode = 2;
-                playGame(gameMode, lastGame);
+                playGame(gameMode, true);
             }
              break;
 
@@ -59,20 +63,28 @@ int initUserInterface(){
 }
 
 
-void playGame(int gameMode, FILE* lastGame){
+void playGame(int gameMode, bool isNewGame){
 
     bool isGameOver = false;
     int N, N_COLS, cellWidth, currentPlayer, turn = 0, jNotAllowed = -1;
     int *jNotAllowedAdress = & jNotAllowed;
 
-    N = getTokenNumber();
-    currentPlayer = getFirstPlayer();
+    if (isNewGame == true){
 
-    // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
-    N_COLS = N + 2;
+        N = getTokenNumber();
 
-    //getCellWidth
-    cellWidth = 2;
+        currentPlayer = getFirstPlayer();
+
+        // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
+        N_COLS = N + 2;
+    } else {
+
+        FILE* lastGame = fopen("saveLastGame.txt", "r");
+        fseek(lastGame, 9, 2);
+        fprintf(lastGame, "%d", N_COLS);
+        fclose(lastGame);
+
+    }
 
     // on crée le tableau une bonne fois pour toutes en mémoire
     int gridStatus[N_COLS][N_COLS];
@@ -80,8 +92,16 @@ void playGame(int gameMode, FILE* lastGame){
     // On crée un pointeur sur le premier élémént du tableau
     int *gridAdress = &gridStatus[0][0];
 
-    //Initailisation à 0 des cases de gridStatus
-    init_donnees(N_COLS, gridAdress);
+    if (isNewGame == true){
+
+        //Initailisation à 0 des cases de gridStatus
+        init_donnees(N_COLS, gridAdress);
+
+    }
+
+    //getCellWidth
+    cellWidth = 2;
+
 
     if (gameMode == 2 || currentPlayer == 1){
         displayGrid(N_COLS, gridAdress, cellWidth, turn);
@@ -90,6 +110,7 @@ void playGame(int gameMode, FILE* lastGame){
 
     while(!isGameOver){
         isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
+        isGameOver = isDrawGame(currentPlayer, N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
         turn = turn + 1;
     }

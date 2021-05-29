@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdbool.h>
+
 int initUserInterface();
 
-void playGame(int gameMode, FILE* lastgame);
+void playGame(int gameMode, bool isNewGame);
 
 int getCellWidth(int N);
 
