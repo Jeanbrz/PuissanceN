@@ -10,19 +10,17 @@
 bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
 
     int j, choice;
-    bool isGameOver = false;
+    bool isGameOver = false, isDeleteAllowed = false;
 
     if (gameMode == 1 && currentPlayer== 2) {
         printf("Ordinateur : \n");
     } else {
         printf("Joueur %d a vous de jouer\n", currentPlayer);
     }
-    if (deleteAllowed(N_COLS, grid, currentPlayer)==true){
+    isDeleteAllowed = deleteAllowed(N_COLS, grid, currentPlayer);
 
-        choice = gameChoice(turn, gameMode, currentPlayer, true);
-    } else {
-        choice = gameChoice(turn, gameMode, currentPlayer, false);
-    }
+    choice = gameChoice(turn, gameMode, currentPlayer, isDeleteAllowed);
+
 
     if (choice==1) {
         j = columnChoice(N_COLS, gameMode, currentPlayer);
@@ -35,7 +33,16 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
     return isGameOver;
 }
 
-
+/**
+ * On ajoute la valeur du joueur actuel (currentPlayer) dans le tableau tout en empechant
+ * @param j
+ * @param N_COLS
+ * @param gridToUpdate
+ * @param currentPlayer
+ * @param turn
+ * @param gameMode
+ * @return
+ */
 bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode) {
 
     int i = N_COLS - 1, currentCell, *currentCellAdress;
@@ -98,8 +105,7 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
             currentCell = *(currentCellAdress);
         }
 
-        currentCellAdress = gridToUpDown + i * N_COLS + j;
-        currentCell = *(currentCellAdress);
+
 
         if (currentCell == currentPlayer) {
             if(gameMode==2 || currentPlayer == 1) {
@@ -107,8 +113,11 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
             }
 
             j = columnChoice(N_COLS, gameMode,currentPlayer);
+            i=0;
 
         }
+        currentCellAdress = gridToUpDown + i * N_COLS + j;
+        currentCell = *(currentCellAdress);
 
     }
 
@@ -258,41 +267,37 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
 
 bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
 
-    int i=0,j=0, currentCell, *currentCellAdress, compteur;
+    int i = 0, j , currentCell, *currentCellAdress, compteur=0;
 
-    currentCellAdress= gridCheck + i * N_COLS + j;
-    currentCell=*(currentCellAdress);
+    for (j = 0; j < N_COLS ; j++) {
 
-    for (j=0; j<N_COLS+1; j++) {
+        currentCellAdress = gridCheck + i * N_COLS + j;
+        currentCell = *(currentCellAdress);
 
-        while (currentCell==0 && i<N_COLS+1){
-            i = i-1;
-            currentCellAdress= gridCheck + i * N_COLS + j;
-            currentCell=*(currentCellAdress);
+        while (currentCell == 0 && i < N_COLS) {
+            i = i + 1;
 
-            if (i==N_COLS) {
+            currentCellAdress = gridCheck + i * N_COLS + j;
+            currentCell = *(currentCellAdress);
+
+            if (i == N_COLS) {
                 compteur = compteur + 1;
             }
-
         }
-
-            if (currentCell==currentPlayer) {
+        if (currentCell == currentPlayer) {
             compteur = compteur + 1;
 
-            } else {
-
-            return false;
-            }
+        }
+        i=0;
     }
 
-    if (compteur > 3){
+    if (compteur > N_COLS - 1) {
 
-        return true;
+        return false;
 
     } else {
 
-        return false;
+        return true;
     }
-
 }
 
