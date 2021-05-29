@@ -62,7 +62,8 @@ int initUserInterface(){
 void playGame(int gameMode){
 
     bool isGameOver = false;
-    int N, N_COLS, cellWidth, currentPlayer, turn = 0;
+    int N, N_COLS, cellWidth, currentPlayer, turn = 0, jNotAllowed;
+    int *jNotAllowedAdress = & jNotAllowed;
 
     N = getTokenNumber();
     currentPlayer = getFirstPlayer();
@@ -88,7 +89,7 @@ void playGame(int gameMode){
     printf("\n");
 
     while(!isGameOver){
-        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode);
+        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
         currentPlayer = getNextPlayer(currentPlayer);
         turn = turn + 1;
     }
