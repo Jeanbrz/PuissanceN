@@ -14,10 +14,7 @@
 #define PLAYER_ONE 1
 #define PLAYER_TWO 2
 
-/**
- * Lance le jeu en affichant le menu et les procédures en fonction du choix utilisateur
- * @return
- */
+
 int initUserInterface(){
 
     int answer, playerNumber, gameMode;
@@ -61,24 +58,17 @@ int initUserInterface(){
     return 0;
 }
 
-/**
- * Saisie le nombre de jettons, initialise les données et la grille
- */
+
 void playGame(int gameMode){
 
-    bool isValid = true, isGameOver = false;
-    char tokenNumber[] = "";
+    bool isGameOver = false;
     int N, N_COLS, cellWidth, currentPlayer, turn = 0;
 
-    //Saisie du nombre de jettons :
-    printf("\nSaisir le nombre de jetons pour jouer :\n");
-    scanf("%s", tokenNumber);
-    N = atoi(tokenNumber);
+    N = getTokenNumber();
+    currentPlayer = getFirstPlayer();
 
     // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
     N_COLS = N + 2;
-
-    currentPlayer = getFirstPlayer();
 
     //getCellWidth
     cellWidth = 2;
@@ -102,7 +92,15 @@ void playGame(int gameMode){
         currentPlayer = getNextPlayer(currentPlayer);
         turn = turn + 1;
     }
+    if (replay()==1){
+        initUserInterface();
+    } else {
+        printf("A bientôt pour de nouvelles avanture");
+    }
 }
+
+
+
 
 
 void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){

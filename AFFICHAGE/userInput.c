@@ -76,6 +76,34 @@ int getPlayerNumber(){
     return atoi(playerNumber);
 }
 
+int getTokenNumber(){
+
+    char tokenNumber[] = "";
+    int N;
+    bool isValid;
+
+    //Saisie du nombre de jettons :
+    printf("\nSaisir le nombre de jetons pour jouer :\n");
+    scanf("%s", tokenNumber);
+
+    //Vérifications de la saisie :
+    isValid = isNumeric(tokenNumber);
+    N = atoi(tokenNumber);
+    if(N<3){
+        isValid = false;
+    }
+    while(isValid!=true){
+        printf("ERREUR - Saisir le nombre de jetons (>2) ?\n");
+        scanf("%s", tokenNumber);
+        isValid = isNumeric(tokenNumber);
+        N = atoi(tokenNumber);
+        if(N<3){
+            isValid = false;
+        }
+    }
+    return N;
+}
+
 int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed){
 
     char choice[]="";
@@ -129,6 +157,7 @@ int gameChoice(int turn, int gameMode, int currentPlayer, bool deleteAllowed){
     return intChoice;
 }
 
+
 int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
 
     int rep;
@@ -151,4 +180,39 @@ int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
 
     rep = rep-1;
     return rep;
+}
+
+int replay(){
+
+    char answer[] = "";
+    int answerInt;
+    bool isValid;
+
+    //Saisie du nombre de jettons :
+    printf("\nVoulez-vous rejouer ? "
+           "1 : Oui"
+           "2 : Non\n");
+    scanf("%s", answer);
+
+    //Vérifications de la saisie :
+    isValid = isNumeric(answer);
+    answerInt = atoi(answer);
+    if(answerInt<1 || answerInt>2){
+        isValid = false;
+    }
+    while(isValid!=true){
+        printf("\nVoulez-vous rejouer ? "
+               "1 : Oui"
+               "2 : Non\n");
+        scanf("%s", answer);
+
+        isValid = isNumeric(answer);
+        answerInt = atoi(answer);
+        if(answerInt<1 || answerInt>2){
+            isValid = false;
+        }
+    }
+    return answerInt;
+
+
 }
