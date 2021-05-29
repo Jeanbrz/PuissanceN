@@ -1,3 +1,4 @@
+#include <stdio.h>
 int initUserInterface();
 
 void playGame(int gameMode, FILE* lastgame);

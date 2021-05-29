@@ -21,6 +21,8 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
     int j, choice;
     bool isGameOver = false, isDeleteAllowed = false;
 
+    FILE* lastGame=fopen("saveLastGame.txt", "w");
+
     if (gameMode == 1 && currentPlayer== 2) {
         printf("Ordinateur : \n");
     } else {
@@ -30,14 +32,42 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
 
     choice = gameChoice(gameMode, currentPlayer, isDeleteAllowed);
 
-    if (choice==1) {
-        j = columnChoice(N_COLS, gameMode, currentPlayer);
-        isGameOver = addValue(j, N_COLS, grid, currentPlayer, turn, gameMode, jNotAllowed);
+    switch (choice) {
+
+        case 1:
+
+            j = columnChoice(N_COLS, gameMode, currentPlayer);
+            isGameOver = addValue(j, N_COLS, grid, currentPlayer, turn, gameMode, jNotAllowed);
+
+            break;
+
+        case 2 :
+
+            j = columnChoice(N_COLS, gameMode, currentPlayer);
+            *jNotAllowed = deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
+
+            break;
+
+        case 3 :
+
+            fprintf(lastGame, "N_COLS : %d\n", N_COLS);
+            fputs("gridStatus : ", lastGame);
+            for (int i=0; i<N_COLS; i++) {
+
+                for (j=0; j<N_COLS; j++){
+
+                    int *currentCellAdress = grid + i * (N_COLS) + j;
+                    fprintf(lastGame, "%d", *(currentCellAdress));
+                }
+            }
+            fprintf(lastGame, "\ncurrentPlayer : %d\n", currentPlayer);
+            fprintf(lastGame, "turn : %d\n", turn);
+            fprintf(lastGame, "gameMode : %d\n", gameMode);
+            fclose(lastGame);
+            isGameOver=true;
+
     }
-    if (choice==2){
-        j = columnChoice(N_COLS, gameMode, currentPlayer);
-        *jNotAllowed = deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
-    }
+
     return isGameOver;
 }
 
@@ -81,13 +111,8 @@ bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn,
 }
 
 /**
- *
- * @param j
- * @param N_COLS
- * @param gridToUpDown
- * @param currentPlayer
- * @param turn
- * @param gameMode
+ * Dans cette fonction on enlève le pion de l'adversaire le plus haut dans la colonne choisie par le joueur actuel.
+ * @param gridToUpDown : tableau du jeu où une valeur sera supprimée
  * @return
  */
 
@@ -140,7 +165,14 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
 return j;
 
 }
-
+/**
+ * Fonction booléenne qui appelle toutes les fonctions de Check (horizontale, verticale, diagonale)
+   et qui verifie si le joueur a gagné (enchainement de N_COLS-2 même jetons). Si une des conditions de
+   Check prouve que le joueur a gagné, la fonction renvoit 'true' pour arreter le programme.
+ * @param i : la ligne du dernier pion ajouté
+ * @param j : la colonne du dernier pion ajouté
+ * @return
+ */
 bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
     int right=0, left=0;
@@ -168,6 +200,17 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
     return false;
 }
 
+/**
+   Cette fonction va d'une part compter sur la droite le nombre de pion identique de la valeur ajoutée dans addValue
+   (currentPlayer). Si elle rencontre une valeur différente de currentPlayer, elle arrete de compter.
+   Après ceci, elle se repositionne sur la valeur ajoutée et compte sur la gauche le nombre de pion identique
+   à la valeur ajoutée dans addValue (même opération). La fonction checkWin va vérifier si : compteurdroit + compteurgauche > NCOLS -2
+
+ * @param *rightAdress : pointeur qui pointe sur l'adresse du compteur horizontal droit. Le compteur va être modifié
+                        a chaque appel de la fonction
+ * @param *leftAdress : pointeur qui pointe sur l'adresse du compteur horizontal gauche. Le compteur va être modifié
+                       a chaque appel de la fonction
+ */
 
 void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *rightAdress, int *leftAdress) {
 

@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdio.h>
 
 bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int *jNotAllowed);
 

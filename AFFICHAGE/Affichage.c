@@ -25,7 +25,7 @@ int initUserInterface(){
     switch (answer) {
 
         case 1 :
-            lastGame = fopen("saveLastGame.txt", "r");
+
             if (lastGame != NULL){
 
             }else{
@@ -89,7 +89,7 @@ void playGame(int gameMode, FILE* lastGame){
     printf("\n");
 
     while(!isGameOver){
-        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress, lastGame);
+        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
         currentPlayer = getNextPlayer(currentPlayer);
         turn = turn + 1;
     }
