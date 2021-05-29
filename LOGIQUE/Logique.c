@@ -8,16 +8,15 @@
 #include "Logique.h"
 
 /**
- * Fonction qui permet de gerer le bloc logique en appelant toutes les autres fonctions (check
- * @param currentPlayer
- * @param N_COLS
- * @param grid
- * @param turn
- * @param gameMode
+ * Fonction qui permet de gerer le bloc logique en appelant toutes les autres fonctions (addValue, deleteValue, Check, gameChoice, columnChoice).
+ * @param N_COLS : la dimension de la grille (nbr jetons + 2)
+ * @param currentPlayer : joueur actuel (il vaut soit 1 ou 2)
+ * @param turn : variable qui compte le nombre de tour de la partie
+ * @param gameMode : le menu de la partie
  * @return
  */
 
-bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
+bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int *jNotAllowed) {
 
     int j, choice;
     bool isGameOver = false, isDeleteAllowed = false;
@@ -31,14 +30,13 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
 
     choice = gameChoice(gameMode, currentPlayer, isDeleteAllowed);
 
-
     if (choice==1) {
         j = columnChoice(N_COLS, gameMode, currentPlayer);
-        isGameOver = addValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
+        isGameOver = addValue(j, N_COLS, grid, currentPlayer, turn, gameMode, jNotAllowed);
     }
     if (choice==2){
         j = columnChoice(N_COLS, gameMode, currentPlayer);
-        deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
+        *jNotAllowed = deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
     }
     return isGameOver;
 }
@@ -50,7 +48,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode) {
  * @param currentPlayer : joueur actuel (il vaut soit 1 ou 2)
  * @return
  */
-bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode) {
+bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode, int *jNotAllowed) {
 
     int i = N_COLS - 1, currentCell, *currentCellAdress;
     bool isWin;
@@ -58,9 +56,9 @@ bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn,
     currentCellAdress = gridToUpdate + i * N_COLS + j;
     currentCell = *(currentCellAdress);
 
-    while (currentCell != 0) {
+    while (currentCell != 0 || j==*jNotAllowed) {
 
-        if ((i == 0) && (currentCell != 0)) {
+        if ((i == 0 && currentCell != 0) || j==*jNotAllowed) {
 
             if(gameMode==2 || currentPlayer==1){
                 printf("veuillez resaisir une colonne\n");
@@ -77,9 +75,21 @@ bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn,
     *(currentCellAdress) = currentPlayer;
     displayGrid(N_COLS, gridToUpdate, 2, turn);
     isWin = checkWin (i, j, N_COLS, gridToUpdate, currentPlayer);
+    *jNotAllowed=-1;
 
     return isWin;
 }
+
+/**
+ *
+ * @param j
+ * @param N_COLS
+ * @param gridToUpDown
+ * @param currentPlayer
+ * @param turn
+ * @param gameMode
+ * @return
+ */
 
 int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int gameMode) {
 
@@ -87,11 +97,8 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
 
     currentCellAdress = gridToUpDown + i * N_COLS + j;
     currentCell = *(currentCellAdress);
-    printf("currentPlayer : %d\n", currentPlayer);
 
     while (currentCell!=getNextPlayer(currentPlayer)) {
-
-        printf("currentPlayer : %d\n", currentPlayer);
 
         while (currentCell == 0) {
 
@@ -112,8 +119,6 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
             currentCell = *(currentCellAdress);
         }
 
-
-
         if (currentCell == currentPlayer) {
             if(gameMode==2 || currentPlayer == 1) {
                 printf("Vous ne pouvez pas enlever votre propre jeton, veuillez resaisir une colonne valable\n");
@@ -132,7 +137,7 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
     displayGrid(N_COLS, gridToUpDown, 2, turn);
 
 
-return 0;
+return j;
 
 }
 
