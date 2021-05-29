@@ -16,3 +16,5 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
 void checkDiagonal(int i,int j,int N_COLS,int *gridCheck,int currentPlayer, int *aboveRightAdress, char direction[]);
 
 bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer);
+
+bool isDrawGame (int currentPlayer, int N_COLS, int *grid);

@@ -50,6 +50,8 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
 
         case 3 :
 
+
+            fprintf(lastGame, "gameMode : %d\n", gameMode);
             fprintf(lastGame, "N_COLS : %d\n", N_COLS);
             fputs("gridStatus : ", lastGame);
             for (int i=0; i<N_COLS; i++) {
@@ -57,12 +59,11 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
                 for (j=0; j<N_COLS; j++){
 
                     int *currentCellAdress = grid + i * (N_COLS) + j;
-                    fprintf(lastGame, "%d", *(currentCellAdress));
+                    fprintf(lastGame, "%d ", *(currentCellAdress));
                 }
             }
             fprintf(lastGame, "\ncurrentPlayer : %d\n", currentPlayer);
             fprintf(lastGame, "turn : %d\n", turn);
-            fprintf(lastGame, "gameMode : %d\n", gameMode);
             fclose(lastGame);
             isGameOver=true;
 
@@ -251,6 +252,10 @@ void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlaye
     *rightAdress = currentRight;
 
 }
+/**
+ *
+ * @param belowAdress
+ */
 
 void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *belowAdress) {
 
@@ -274,7 +279,11 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
 
     *belowAdress=currentBelow;
 }
-
+/**
+ *
+ * @param aboveAdress
+ * @param direction
+ */
  void checkDiagonal(int i,int j,int N_COLS,int *gridCheck,int currentPlayer, int *aboveAdress, char direction[]) {
 
     int iCell=i, jCell=j, currentCell, stockj=j, *currentCellAdress, currentAbove = *aboveAdress, jCellModif;
@@ -319,6 +328,10 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
 
     *aboveAdress = currentAbove;
 }
+/**
+ *
+ * @return
+ */
 
 bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
 
@@ -356,3 +369,29 @@ bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
     }
 }
 
+bool isDrawGame (int currentPlayer, int N_COLS, int *grid) {
+
+    int i = 0, j = 0, currentCell, *currentCellAdress, compteur = 0;
+
+    currentCellAdress = grid + i * N_COLS + j;
+    currentCell = *(currentCellAdress);
+
+    for (j = 0; j < N_COLS; j++) {
+
+        if (currentCell != 0) {
+
+            compteur++;
+        }
+        currentCellAdress = grid + i * N_COLS + j;
+        currentCell = *(currentCellAdress);
+    }
+
+    if (compteur == N_COLS) {
+
+        printf("match nul !!!");
+        return true;
+    } else {
+
+        return false;
+    }
+}
