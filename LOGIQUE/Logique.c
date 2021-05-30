@@ -19,7 +19,7 @@
 bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int *jNotAllowed) {
 
     int j, choice;
-    bool isGameOver = false, isDeleteAllowed = false;
+    bool isGameOver = false, isDeleteAllowed=true;
 
     FILE* lastGame=fopen("saveLastGame.txt", "w");
 
