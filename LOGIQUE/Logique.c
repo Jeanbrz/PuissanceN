@@ -65,7 +65,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
             fprintf(lastGame, "\ncurrentPlayer : %d\n", currentPlayer);
             fprintf(lastGame, "turn : %d\n", turn);
             fclose(lastGame);
-            isGameOver=true;
+            // isGameOver=true;
 
     }
 
@@ -176,7 +176,7 @@ return j;
  */
 bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
-    bool isWin;
+    bool test;
 
     int right=0, left=0;
     int *rightAdress=&right, *leftAdress=&left;
@@ -197,12 +197,12 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
     if (right+left+1>N_COLS-3 || below+1>N_COLS-3 || aboveRight>N_COLS-3 || aboveLeft>N_COLS-3) {
 
         printf("bravo joueur %d, vous avez win\n", currentPlayer);
-        isWin= true;
+        test= true;
 
     } else {
-        isWin= false;
+        test= false;
     }
-    return isWin;
+    return test;
 }
 
 /**
@@ -386,15 +386,17 @@ bool isDrawGame (int currentPlayer, int N_COLS, int *grid) {
 
     currentCellAdress = grid + i * N_COLS + j;
     currentCell = *(currentCellAdress);
-printf("%d\n", N_COLS);
-    for (j = 0; j <= N_COLS; j++) {
+    printf("%d\n", N_COLS);
+
+    for (j = 0; j < N_COLS; j++) {
+
+        currentCellAdress = grid + i * N_COLS + j;
+        currentCell = *(currentCellAdress);
 
         if (currentCell != 0) {
 
             compteur=compteur+1;
         }
-        currentCellAdress = grid + i * N_COLS + j;
-        currentCell = *(currentCellAdress);
     }
 
     if (compteur == N_COLS) {
