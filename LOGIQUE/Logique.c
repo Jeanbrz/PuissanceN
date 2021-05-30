@@ -65,7 +65,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
             fprintf(lastGame, "\ncurrentPlayer : %d\n", currentPlayer);
             fprintf(lastGame, "turn : %d\n", turn);
             fclose(lastGame);
-            // isGameOver=true;
+            isGameOver=true;
 
     }
 
