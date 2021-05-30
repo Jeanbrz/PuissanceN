@@ -25,3 +25,30 @@ int init_donnees(int N_COLS, int *table_donnees){
 
     return 0;
 }
+
+
+void loadData (int N_COLS, int* table_donnees, FILE* lastGame){
+
+    int i, j, cellValue=0, position;
+
+    position = ftell(lastGame);
+    position = position + 15;
+
+    for(i=0; i < N_COLS; i++){
+        for(j=0; j < N_COLS ; j++) {
+
+            fseek(lastGame, position, SEEK_SET);
+            fscanf(lastGame, "%d", &cellValue);
+            position = ftell(lastGame);
+
+            // Si on est par exemple à la 4e ligne et 2e colonne,
+            // l'adresse de la cellule est égal à :
+            // table_donnees + 4 * 6 + 2
+            int *currentCellAdress = table_donnees + i * (N_COLS) + j;
+            *(currentCellAdress) = cellValue;
+
+        }
+    }
+
+
+}

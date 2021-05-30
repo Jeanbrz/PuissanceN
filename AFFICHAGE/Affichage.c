@@ -30,9 +30,10 @@ int initUserInterface(){
             if (lastGame != NULL){
                 fseek(lastGame, 11, SEEK_SET);
                 fscanf(lastGame, "%d", &gameMode);
-                fclose(lastGame);
+
                 printf("game mode : %d\n", gameMode);
-                playGame(gameMode, false);
+
+                playGame(gameMode, false, lastGame);
             }else{
                 printf("\nAucune ancienne partie chargee");
                 playerNumber = getPlayerNumber();
@@ -41,7 +42,7 @@ int initUserInterface(){
                 }else{
                     gameMode = 2;
                 }
-                playGame(gameMode, true);
+                playGame(gameMode, true, lastGame);
             }
              break;
 
@@ -49,10 +50,10 @@ int initUserInterface(){
             playerNumber = getPlayerNumber();
             if (playerNumber == 1){
                 gameMode = 1;
-                playGame(gameMode, true);
+                playGame(gameMode, true, lastGame);
             }else{
                 gameMode = 2;
-                playGame(gameMode, true);
+                playGame(gameMode, true, lastGame);
             }
              break;
 
@@ -63,11 +64,14 @@ int initUserInterface(){
 }
 
 
-void playGame(int gameMode, bool isNewGame){
+void playGame(int gameMode, bool isNewGame, FILE* lastGame){
 
-    bool isGameOver = false;
+    bool isGameOver = false, isDraw = false;
     int N, N_COLS, cellWidth, currentPlayer, turn = 0, jNotAllowed = -1;
     int *jNotAllowedAdress = & jNotAllowed;
+
+    long position;
+
 
     if (isNewGame == true){
 
@@ -79,11 +83,12 @@ void playGame(int gameMode, bool isNewGame){
         N_COLS = N + 2;
     } else {
 
-        FILE* lastGame = fopen("saveLastGame.txt", "r");
-        fseek(lastGame, 9, 2);
-        fprintf(lastGame, "%d", N_COLS);
-        fclose(lastGame);
-
+        //On place le curseur juste devant la valeur de N_COLS :
+        position = ftell(lastGame);
+        position = position + 11;
+        fseek(lastGame, position, SEEK_SET);
+        //On récupère la valeur souhaitée :
+        fscanf(lastGame, "%d", &N_COLS);
     }
 
     // on crée le tableau une bonne fois pour toutes en mémoire
@@ -97,27 +102,45 @@ void playGame(int gameMode, bool isNewGame){
         //Initailisation à 0 des cases de gridStatus
         init_donnees(N_COLS, gridAdress);
 
+    } else {
+
+        loadData(N_COLS, gridAdress, lastGame);
+
+        //Récupération de CurrentPlayer :
+        position = ftell(lastGame);
+        position = position + 18;
+        fseek(lastGame, position, SEEK_SET);
+        fscanf(lastGame, "%d", &currentPlayer);
+
+        //Récupération de Turn :
+        position = ftell(lastGame);
+        position = position + 9;
+        fseek(lastGame, position, SEEK_SET);
+        fscanf(lastGame, "%d", &turn);
+        turn = turn - 1;
+        fclose(lastGame);
     }
 
     //getCellWidth
     cellWidth = 2;
 
 
+    // Cas où c'est à un humain de jouer
     if (gameMode == 2 || currentPlayer == 1){
         displayGrid(N_COLS, gridAdress, cellWidth, turn);
     }
     printf("\n");
 
-    while(!isGameOver){
-        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
-        isGameOver = isDrawGame(currentPlayer, N_COLS, gridAdress);
-        currentPlayer = getNextPlayer(currentPlayer);
+    while(!isGameOver && !isDraw){
         turn = turn + 1;
+        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
+        isDraw = isDrawGame(N_COLS, gridAdress);
+        currentPlayer = getNextPlayer(currentPlayer);
     }
     if (replay()==1){
         initUserInterface();
     } else {
-        printf("A bientôt pour de nouvelles avanture");
+        printf("A bientot pour de nouvelles avanture");
     }
 }
 
