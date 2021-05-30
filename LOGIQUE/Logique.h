@@ -9,12 +9,12 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
 
 bool checkWin (int N, int j, int N_COLS, int *gridCheck, int currentPlayer);
 
-void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *rightAdress, int *leftAdress);
+void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *horizontalAdress, char direction[]);
 
 void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *belowAdress);
 
-void checkDiagonal(int i,int j,int N_COLS,int *gridCheck,int currentPlayer, int *aboveRightAdress, char direction[]);
+void checkDiagonal(int i,int j,int N_COLS,int *gridCheck,int currentPlayer, int *aboveAdress, char direction[]);
 
 bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer);
 
-bool isDrawGame (int currentPlayer, int N_COLS, int *grid);
+bool isDrawGame (int N_COLS, int *grid);

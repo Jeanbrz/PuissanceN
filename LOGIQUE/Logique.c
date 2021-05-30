@@ -181,11 +181,15 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
     int right=0, left=0;
     int *rightAdress=&right, *leftAdress=&left;
 
-    checkHorizontaly(i, j, N_COLS, gridCheck, currentPlayer, rightAdress, leftAdress);
+    checkHorizontaly(i, j, N_COLS, gridCheck, currentPlayer, rightAdress, "right");
+    checkHorizontaly(i, j, N_COLS, gridCheck, currentPlayer, leftAdress, "left");
+
 
     int  below=0;
     int *belowAdress=&below;
+
     checkVertically(i, j, N_COLS, gridCheck, currentPlayer, belowAdress);
+
 
      int aboveRight=0, aboveLeft=0;
      int *aboveRightAdress=&aboveRight, *aboveLeftAdress=&aboveLeft;
@@ -217,44 +221,34 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
                        a chaque appel de la fonction
  */
 
-void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *rightAdress, int *leftAdress) {
+void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlayer, int *horizontalAdress, char direction[]) {
 
-    int currentCell, *currentCellAdress, jCell, stock = j, currentRight=*rightAdress, currentLeft=*leftAdress;
+    int currentCell, *currentCellAdress, jCell, jCellModif, currentHorizontal=*horizontalAdress;
 
-    jCell = j+1;
+    if (strcmp(direction, "right")) {
+        jCellModif=1;
+
+    } else {
+
+        jCellModif=-1;
+    }
+
+    jCell = j+jCellModif;
 
     currentCellAdress = gridCheck + i * N_COLS + jCell;
     currentCell = *(currentCellAdress);
 
 
-    while (currentCell == currentPlayer && jCell < N_COLS+1) {
+    while (currentCell == currentPlayer && -1 <jCell < N_COLS+1) {
 
-        currentRight = currentRight + 1;
-        jCell = jCell + 1;
-
-        currentCellAdress = gridCheck + i * N_COLS + jCell;
-        currentCell = *(currentCellAdress);
-    }
-
-
-    jCell = stock - 1;
-
-    currentCellAdress = gridCheck + i * N_COLS + jCell;
-    currentCell = *(currentCellAdress);
-
-    while (currentCell == currentPlayer && jCell > -1) {
-
-        currentLeft = currentLeft + 1;
-        jCell = jCell - 1;
+        currentHorizontal = currentHorizontal + 1;
+        jCell = jCell + jCellModif;
 
         currentCellAdress = gridCheck + i * N_COLS + jCell;
         currentCell = *(currentCellAdress);
     }
 
-
-    *leftAdress = currentLeft;
-    *rightAdress = currentRight;
-
+    *horizontalAdress = currentHorizontal;
 }
 
 /**
@@ -283,7 +277,6 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
 
     }
 
-
     *belowAdress=currentBelow;
 }
 /**
@@ -293,8 +286,7 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
  */
  void checkDiagonal(int i,int j,int N_COLS,int *gridCheck,int currentPlayer, int *aboveAdress, char direction[]) {
 
-    int iCell=i, jCell=j, currentCell, stockj=j, *currentCellAdress, currentAbove = *aboveAdress, jCellModif;
-
+    int iCell=i, jCell=j, currentCell, *currentCellAdress, currentAbove = *aboveAdress, jCellModif;
 
         if (strcmp(direction, "right")) {
         jCellModif=1;
@@ -304,7 +296,6 @@ void checkVertically(int i, int j, int N_COLS, int *gridCheck, int currentPlayer
         jCellModif=-1;
 
         }
-
 
         while (iCell!=N_COLS-1 && jCell>=0 && jCell<=N_COLS-1) {
             iCell=iCell+1;
@@ -380,7 +371,7 @@ bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
    elle renverra un booléen vrai qui arretera le programme.
  * @return
  */
-bool isDrawGame (int currentPlayer, int N_COLS, int *grid) {
+bool isDrawGame (int N_COLS, int *grid) {
 
     int i = 0, j = 0, currentCell, *currentCellAdress, compteur = 0;
 
