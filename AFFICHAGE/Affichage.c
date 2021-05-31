@@ -53,7 +53,7 @@ int initUserInterface(){
 
         case 3 : //Fermeture du programme
 
-            printf("\nA bient%ct pour de nouvelle avantures ! \n", 147);
+            printf("\nA bient%ct pour de nouvelle avantures %c! \n", 147, 2);
 
             return 0;
 
@@ -105,9 +105,6 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
         turn = turn - 1;
         fclose(lastGame);
     }
-    //On supprime le fichier afin de s'assurer de l'échec de l'ouverture dans initUserInterface,
-    // si il n'y a pas de nouvelle partie enregistrée :
-    remove("saveLastGame.txt");
 
     //On définit la taille qu'auront les cellules de la grille en fonction de la taille des numéros de colonnes
     // qui devront êtres affichés

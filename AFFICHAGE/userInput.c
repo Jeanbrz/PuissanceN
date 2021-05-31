@@ -195,7 +195,7 @@ int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
         printf("Dans quelle colonne voulez vous jouer ?\n");
         scanf("%d", &rep);
 
-        while (rep < 0 || rep > (N_COLS)) {
+        while (rep <= 0 || rep > (N_COLS)) {
             printf("Veuillez saisir une valeur comprise entre 1 et %d \n", N_COLS);
             scanf("%d", &rep);
         }
