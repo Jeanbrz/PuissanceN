@@ -17,49 +17,47 @@
 
 int initUserInterface(){
 
-    int answer, playerNumber, gameMode;
+    int answer, gameMode;
 
     FILE* lastGame;
-
 
     answer = displayMenu();
 
     switch (answer) {
 
-        case 1 :
+        case 1 : //Chargement de la dernière partie enregistrée si elle existe
+
             lastGame = fopen("saveLastGame.txt", "r");
+
             if (lastGame != NULL){
-                fseek(lastGame, 11, SEEK_SET);
-                fscanf(lastGame, "%d", &gameMode);
-                playGame(gameMode, false, lastGame);
+
+                //Il existe une partie enregistrée, on récupère la valeur gameMode pour lancer playGame
+                loadVariables(11, lastGame, &gameMode);
                 fclose(lastGame);
+                playGame(gameMode, false, lastGame);
             }else{
-                printf("\nAucune ancienne partie chargee");
-                playerNumber = getPlayerNumber();
-                if (playerNumber == 1){
-                    gameMode = 1;
-                }else{
-                    gameMode = 2;
-                }
+
+                //Il n'existe pas de partie enregistrée, on en lance une nouvelle
+                printf("\nAucune ancienne partie enregistr%ce", 130);
+                gameMode = getPlayerNumber();
                 playGame(gameMode, true, lastGame);
             }
              break;
 
-        case 2 :
-            playerNumber = getPlayerNumber();
-            if (playerNumber == 1){
-                gameMode = 1;
-                playGame(gameMode, true, lastGame);
-            }else{
-                gameMode = 2;
-                playGame(gameMode, true, lastGame);
-            }
+        case 2 : //Lancement d'une nouvelle partie
+
+            gameMode = getPlayerNumber();
+            playGame(gameMode, true, lastGame);
+
              break;
 
-        case 3 : printf("\nA bientot pour de nouvelle avantures ! \n"); return 0;
+        case 3 : //Fermeture du programme
+
+            printf("\nA bient%ct pour de nouvelle avantures ! \n", 147);
+
+            return 0;
 
     }
-    return 0;
 }
 
 
@@ -70,27 +68,21 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
     int *jNotAllowedAdress = & jNotAllowed;
 
     long position;
-    char buffer;
-
 
     if (isNewGame == true){
 
         N = getTokenNumber();
-
         currentPlayer = getFirstPlayer();
 
-        // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
+        // On crée une variable pour stocker le nombre de colonnes/lignes, désormais on utilisera uniquement elle
         N_COLS = N + 2;
     } else {
+
         lastGame = fopen("saveLastGame.txt", "r");
-        //On place le curseur juste devant la valeur de N_COLS dans le fichier :
-        position = 23;
-        fseek(lastGame, position, SEEK_SET);
-        //On récupère la valeur souhaitée :
-        fscanf(lastGame, "%d", &N_COLS);
+        loadVariables(23, lastGame, &N_COLS);
     }
 
-    // on crée le tableau une bonne fois pour toutes en mémoire
+    // On crée un tableau d'entiers de dim N+2*N+2 qui représentera l'état de la grille
     int gridStatus[N_COLS][N_COLS];
 
     // On crée un pointeur sur le premier élémént du tableau
@@ -99,33 +91,28 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
     if (isNewGame == true){
 
         //Initailisation à 0 des cases de gridStatus
-        init_donnees(N_COLS, gridAdress);
-
+        initDataTable(N_COLS, gridAdress);
     } else {
 
-        loadData(N_COLS, gridAdress, lastGame);
+        //On recrée l'état de gridStatus enregistré :
+        loadDataTable(N_COLS, gridAdress, lastGame);
 
         //Récupération de CurrentPlayer :
-        position = ftell(lastGame);
-        position = position + 18;
-        fseek(lastGame, position, SEEK_SET);
-        fscanf(lastGame, "%d", &currentPlayer);
+        loadVariables(ftell(lastGame)+18, lastGame, &currentPlayer);
 
         //Récupération de Turn :
-        position = ftell(lastGame);
-        position = position + 9;
-        fseek(lastGame, position, SEEK_SET);
-        fscanf(lastGame, "%d", &turn);
+        loadVariables(ftell(lastGame)+9, lastGame, &turn);
         turn = turn - 1;
         fclose(lastGame);
     }
+    //On supprime le fichier afin de s'assurer de l'échec de l'ouverture dans initUserInterface,
+    // si il n'y a pas de nouvelle partie enregistrée :
     remove("saveLastGame.txt");
 
-
-
+    //On définit la taille qu'auront les cellules de la grille en fonction de la taille des numéros de colonnes
+    // qui devront êtres affichés
     //getCellWidth
     cellWidth = 2;
-
 
     // Cas où c'est à un humain de jouer
     if (gameMode == 2 || currentPlayer == 1){
@@ -143,12 +130,9 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
     if (replay()==1){
         initUserInterface();
     } else {
-        printf("A bientot pour de nouvelles avanture");
+        printf("A bient%ct pour de nouvelles avanture", 147);
     }
 }
-
-
-
 
 
 void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
@@ -203,7 +187,8 @@ int getCellWidth(int N){
     char NChar[]="";
     int width = 0;
 
-    sprintf(NChar, "%d", N + 2);
+    itoa(N, NChar, 10);
+    printf("NCHAR : %s", NChar);
     if (strlen(NChar)%2 == 0){
         width = strlen(NChar)+1;
     } else {

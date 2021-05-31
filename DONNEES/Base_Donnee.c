@@ -11,7 +11,7 @@
  * @param N
  * @return
  */
-int init_donnees(int N_COLS, int *table_donnees){
+int initDataTable(int N_COLS, int *table_donnees){
     int i, j;
     for(i=0; i < N_COLS; i++){
         for(j=0; j < N_COLS ; j++) {
@@ -27,7 +27,7 @@ int init_donnees(int N_COLS, int *table_donnees){
 }
 
 
-void loadData (int N_COLS, int* table_donnees, FILE* lastGame){
+void loadDataTable (int N_COLS, int* table_donnees, FILE* lastGame){
 
     int i, j, cellValue=0, position;
 
@@ -49,6 +49,15 @@ void loadData (int N_COLS, int* table_donnees, FILE* lastGame){
 
         }
     }
+}
 
+
+void loadVariables(int position, FILE* lastGame, int * variable){
+
+    //On place le curseur juste devant la valeur de la variable dans le fichier :
+    fseek(lastGame, position, SEEK_SET);
+
+    //On récupère la valeur souhaitée :
+    fscanf(lastGame, "%d", variable);
 
 }

@@ -1,5 +1,7 @@
 #include <stdio.h>
 
-int init_donnees(int N_COLS, int* table_donnees);
+int initDataTable(int N_COLS, int* table_donnees);
 
-void loadData(int N_COLS, int* table_donnees, FILE* lastGame);
+void loadDataTable(int N_COLS, int* table_donnees, FILE* lastGame);
+
+void loadVariables(int position, FILE* lastGame, int * variable);
