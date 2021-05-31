@@ -333,7 +333,7 @@ bool deleteAllowed(int N_COLS, int *gridCheck, int currentPlayer) {
 
     int i = 0, j , currentCell, *currentCellAdress, compteur=0;
 
-    for (j = 0; j < N_COLS+1 ; j++) {
+    for (j = 0; j < N_COLS ; j++) {
 
         currentCellAdress = gridCheck + i * N_COLS + j;
         currentCell = *(currentCellAdress);
@@ -375,7 +375,6 @@ bool isDrawGame (int N_COLS, int *grid) {
 
     currentCellAdress = grid + i * N_COLS + j;
     currentCell = *(currentCellAdress);
-    printf("%d\n", N_COLS);
 
     for (j = 0; j < N_COLS; j++) {
 
