@@ -21,7 +21,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
     int j, choice;
     bool isGameOver = false, isDeleteAllowed=true;
 
-    FILE* lastGame=fopen("saveLastGame.txt", "w");
+    FILE* lastGame;
 
     if (gameMode == 1 && currentPlayer== 2) {
         printf("Ordinateur : \n");
@@ -45,11 +45,10 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
 
             j = columnChoice(N_COLS, gameMode, currentPlayer);
             *jNotAllowed = deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
-
             break;
 
         case 3 :
-
+            lastGame = fopen("saveLastGame.txt", "w");
             fprintf(lastGame, "gameMode : %d\n", gameMode);
             fprintf(lastGame, "N_COLS : %d\n", N_COLS);
             fputs("gridStatus : ", lastGame);

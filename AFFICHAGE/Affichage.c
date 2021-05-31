@@ -19,21 +19,20 @@ int initUserInterface(){
 
     int answer, playerNumber, gameMode;
 
-    FILE* lastGame = fopen("saveLastGame.txt", "r");
+    FILE* lastGame;
+
 
     answer = displayMenu();
 
     switch (answer) {
 
         case 1 :
-
+            lastGame = fopen("saveLastGame.txt", "r");
             if (lastGame != NULL){
                 fseek(lastGame, 11, SEEK_SET);
                 fscanf(lastGame, "%d", &gameMode);
-
-                printf("game mode : %d\n", gameMode);
-
                 playGame(gameMode, false, lastGame);
+                fclose(lastGame);
             }else{
                 printf("\nAucune ancienne partie chargee");
                 playerNumber = getPlayerNumber();
@@ -71,6 +70,7 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
     int *jNotAllowedAdress = & jNotAllowed;
 
     long position;
+    char buffer;
 
 
     if (isNewGame == true){
@@ -82,10 +82,9 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
         // On crée tout de suite une variable pour le nb de colonnes, désormais on utilisera uniquement elle
         N_COLS = N + 2;
     } else {
-
-        //On place le curseur juste devant la valeur de N_COLS :
-        position = ftell(lastGame);
-        position = position + 11;
+        lastGame = fopen("saveLastGame.txt", "r");
+        //On place le curseur juste devant la valeur de N_COLS dans le fichier :
+        position = 23;
         fseek(lastGame, position, SEEK_SET);
         //On récupère la valeur souhaitée :
         fscanf(lastGame, "%d", &N_COLS);
@@ -120,6 +119,9 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
         turn = turn - 1;
         fclose(lastGame);
     }
+    remove("saveLastGame.txt");
+
+
 
     //getCellWidth
     cellWidth = 2;
@@ -137,6 +139,7 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
         isDraw = isDrawGame(N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
     }
+
     if (replay()==1){
         initUserInterface();
     } else {
