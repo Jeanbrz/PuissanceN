@@ -67,6 +67,9 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
     int N, N_COLS, cellWidth, currentPlayer, turn = 0, jNotAllowed = -1;
     int *jNotAllowedAdress = & jNotAllowed;
 
+    // On crée un tableau d'entiers de dim N+2*N+2 qui représentera l'état de la grille
+    int ** gridStatus = malloc(N_COLS * sizeof(int *));
+
     long position;
 
     if (isNewGame == true){
@@ -82,10 +85,9 @@ void playGame(int gameMode, bool isNewGame, FILE* lastGame){
         loadVariables(23, lastGame, &N_COLS);
     }
 
-    // On crée un tableau d'entiers de dim N+2*N+2 qui représentera l'état de la grille
-    int gridStatus[N_COLS][N_COLS];
 
-    // On crée un pointeur sur le premier élémént du tableau
+
+    // On crée un pointeur sur le premier élément du tableau
     int *gridAdress = &gridStatus[0][0];
 
     if (isNewGame == true){
