@@ -49,8 +49,10 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
 
         case 3 :
             lastGame = fopen("saveLastGame.txt", "w");
-            fprintf(lastGame, "gameMode : %d\n", gameMode);
             fprintf(lastGame, "N_COLS : %d\n", N_COLS);
+            fprintf(lastGame, "gameMode : %d\n", gameMode);
+            fprintf(lastGame, "\ncurrentPlayer : %d\n", currentPlayer);
+            fprintf(lastGame, "turn : %d\n", turn);
             fputs("gridStatus : ", lastGame);
             for (int i=0; i<N_COLS; i++) {
 
@@ -60,8 +62,8 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
                     fprintf(lastGame, "%d ", *(currentCellAdress));
                 }
             }
-            fprintf(lastGame, "\ncurrentPlayer : %d\n", currentPlayer);
-            fprintf(lastGame, "turn : %d\n", turn);
+
+
             fclose(lastGame);
             isGameOver=true;
 
@@ -198,7 +200,7 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
     if (right+left+1>N_COLS-3 || below+1>N_COLS-3 || aboveRight>N_COLS-3 || aboveLeft>N_COLS-3) {
 
-        printf("bravo joueur %d, vous avez win\n", currentPlayer);
+        printf("bravo joueur %d, vous avez win !\n", currentPlayer);
         test= true;
 
     } else {
