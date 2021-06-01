@@ -6,6 +6,6 @@ int columnChoice(int N_COLS, int gameMode, int currentPlayer);
 
 int getPlayerNumber();
 
-int getTokenNumber();
+int getTokenNumber(bool isNewGame, FILE * lastGame);
 
 int replay();

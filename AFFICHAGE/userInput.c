@@ -76,32 +76,43 @@ int getPlayerNumber(){
     return atoi(playerNumber);
 }
 
-int getTokenNumber(){
+int getTokenNumber(bool isNewGame, FILE * lastGame){
 
     char tokenNumber[] = "";
-    int N;
+    int N_COLS;
     bool isValid;
 
-    //Saisie du nombre de jettons :
-    printf("\nSaisir le nombre de jetons pour jouer :\n");
-    scanf("%s", tokenNumber);
+    if (isNewGame == true){
 
-    //Vérifications de la saisie :
-    isValid = isNumeric(tokenNumber);
-    N = atoi(tokenNumber);
-    if(N<3){
-        isValid = false;
-    }
-    while(isValid!=true){
-        printf("ERREUR - Saisir le nombre de jetons (>2) ?\n");
+        //Saisie du nombre de jettons :
+        printf("\nSaisir le nombre de jetons pour jouer :\n");
         scanf("%s", tokenNumber);
+
+        //Vérifications de la saisie :
         isValid = isNumeric(tokenNumber);
-        N = atoi(tokenNumber);
-        if(N<3){
+        N_COLS = atoi(tokenNumber);
+        if(N_COLS<3){
             isValid = false;
         }
+        while(isValid!=true){
+            printf("ERREUR - Saisir le nombre de jetons (>2) ?\n");
+            scanf("%s", tokenNumber);
+            isValid = isNumeric(tokenNumber);
+            N_COLS = atoi(tokenNumber);
+            if(N_COLS<3){
+                isValid = false;
+            }
+        }
+        // On crée une variable pour stocker le nombre de colonnes/lignes, désormais on utilisera uniquement elle
+        N_COLS = N_COLS+2;
+
+    } else {
+
+        loadVariables(9, lastGame, &N_COLS);
+
     }
-    return N;
+
+    return N_COLS;
 }
 
 int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){

@@ -3,7 +3,7 @@
 
 int initUserInterface();
 
-void playGame(int gameMode, bool isNewGame, FILE* lastGame);
+void playGame(bool isNewGame);
 
 int getCellWidth(int N);
 

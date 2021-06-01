@@ -51,7 +51,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
             lastGame = fopen("saveLastGame.txt", "w");
             fprintf(lastGame, "N_COLS : %d\n", N_COLS);
             fprintf(lastGame, "gameMode : %d\n", gameMode);
-            fprintf(lastGame, "\ncurrentPlayer : %d\n", currentPlayer);
+            fprintf(lastGame, "currentPlayer : %d\n", currentPlayer);
             fprintf(lastGame, "turn : %d\n", turn);
             fputs("gridStatus : ", lastGame);
             for (int i=0; i<N_COLS; i++) {

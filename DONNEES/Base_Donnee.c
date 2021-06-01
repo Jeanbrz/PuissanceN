@@ -52,7 +52,7 @@ void loadDataTable (int N_COLS, int* table_donnees, FILE* lastGame){
 }
 
 
-void loadVariables(int position, FILE* lastGame, int * variable){
+void loadVariables(long position, FILE* lastGame, int * variable){
 
     //On place le curseur juste devant la valeur de la variable dans le fichier :
     fseek(lastGame, position, SEEK_SET);
