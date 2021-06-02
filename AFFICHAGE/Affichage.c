@@ -109,14 +109,9 @@ void playGame(bool isNewGame){
     }
     fclose(lastGame);
 
-    //On définit la taille qu'auront les cellules de la grille en fonction de la taille des numéros de colonnes
-    // qui devront êtres affichés
-    //getCellWidth
-    cellWidth = 2;
-
     // Cas où c'est à un humain de jouer
     if (gameMode == 2 || currentPlayer == 1){
-        show_grid(N_COLS, gridAdress, cellWidth, turn);
+        show_grid(N_COLS, gridAdress, turn);
     }
     printf("\n");
 
@@ -135,22 +130,21 @@ void playGame(bool isNewGame){
 }
 
 
-void show_grid(int N_COLS, int *grid, int cellWidth, int turn){
+void show_grid(int N_COLS, int *grid, int turn){
 
-    int i, j, space, currentCell;
+    int i, j, currentCell;
+
+    int space;
 
     printf("\n Tour %d\n", turn+1);
     for (i=0; i < N_COLS; i++){
 
         for(j=0; j < N_COLS; j++){
-            space=0;
 
             if (j == 0){
                 printf("|");
-            } else {
-                printf("_");
-
             }
+            printf(" ");
 
             currentCell = *(grid + i * (N_COLS) + j);
             if(currentCell == 0){
@@ -163,41 +157,26 @@ void show_grid(int N_COLS, int *grid, int cellWidth, int turn){
                 printf("O");
             }
 
-            //Afficher une cellule de la bonne largeure
-            while(space<cellWidth-1){
-                printf("_");
-                space = space+1;
-            }
+            printf(" ");
             printf("|");
         }
         printf("\n");
     }
 
-    printf("  ");
+
     for (i=0; i<N_COLS; i++){
 
-        printf("%d", i+1);
-        for (j=0; j<=cellWidth; j++){
+        if (i>=10){
             printf(" ");
+        } else {
+            printf("  ");
         }
+        printf("%d", i+1);
+        printf(" ");
+
+
     }
     printf("\n");
-}
-
-
-int getCellWidth(int N){
-
-    char NChar[]="";
-    int width = 0;
-
-    itoa(N, NChar, 10);
-    printf("NCHAR : %s", NChar);
-    if (strlen(NChar)%2 == 0){
-        width = strlen(NChar)+1;
-    } else {
-        width = strlen(NChar);
-    }
-    return width;
 }
 
 

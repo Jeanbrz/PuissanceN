@@ -89,16 +89,17 @@ int getTokenNumber(bool isNewGame, FILE * lastGame){
         scanf("%s", tokenNumber);
 
         //Vérifications de la saisie :
-        isValid = isNumeric(tokenNumber);
         N_COLS = atoi(tokenNumber);
+        isValid = isNumeric(tokenNumber);
+
         if(N_COLS<3){
             isValid = false;
         }
         while(isValid!=true){
             printf("ERREUR - Saisir le nombre de jetons (>2) ?\n");
             scanf("%s", tokenNumber);
-            isValid = isNumeric(tokenNumber);
             N_COLS = atoi(tokenNumber);
+            isValid = isNumeric(tokenNumber);
             if(N_COLS<3){
                 isValid = false;
             }
@@ -123,6 +124,8 @@ int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){
     srand(time(0));
 
     if(gameMode == 1 && currentPlayer == 2){
+
+        //Cas où c'est à l'ordinateur de jouer
 
         if (deleteAllowed==false){
             intChoice = 1;

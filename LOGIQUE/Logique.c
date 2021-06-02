@@ -48,6 +48,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
             break;
 
         case 3 :
+
             lastGame = fopen("saveLastGame.txt", "w");
             fprintf(lastGame, "N_COLS : %d\n", N_COLS);
             fprintf(lastGame, "gameMode : %d\n", gameMode);
@@ -104,7 +105,7 @@ bool add_token(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn
     }
 
     *(currentCellAdress) = currentPlayer;
-    show_grid(N_COLS, gridToUpdate, 2, turn);
+    show_grid(N_COLS, gridToUpdate, turn);
     isWin = check_winner(i, j, N_COLS, gridToUpdate, currentPlayer);
     *jNotAllowed=-1;
 
@@ -160,7 +161,7 @@ int remove_token(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tu
     }
 
     *(currentCellAdress) = 0;
-    show_grid(N_COLS, gridToUpDown, 2, turn);
+    show_grid(N_COLS, gridToUpDown, turn);
 
 
 return j;
