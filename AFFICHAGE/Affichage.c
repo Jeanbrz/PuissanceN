@@ -116,7 +116,7 @@ void playGame(bool isNewGame){
 
     // Cas où c'est à un humain de jouer
     if (gameMode == 2 || currentPlayer == 1){
-        displayGrid(N_COLS, gridAdress, cellWidth, turn);
+        show_grid(N_COLS, gridAdress, cellWidth, turn);
     }
     printf("\n");
 
@@ -130,12 +130,12 @@ void playGame(bool isNewGame){
     if (replay()==1){
         initUserInterface();
     } else {
-        printf("A bient%ct pour de nouvelles avanture", 147);
+        printf("A bient%ct pour de nouvelles aventures", 147);
     }
 }
 
 
-void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
+void show_grid(int N_COLS, int *grid, int cellWidth, int turn){
 
     int i, j, space, currentCell;
 
@@ -147,11 +147,14 @@ void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
 
             if (j == 0){
                 printf("|");
+            } else {
+                printf("_");
+
             }
 
             currentCell = *(grid + i * (N_COLS) + j);
             if(currentCell == 0){
-                printf(" ");
+                printf("_");
             }
             if(currentCell == 1){
                 printf("X");
@@ -161,8 +164,8 @@ void displayGrid(int N_COLS, int *grid, int cellWidth, int turn){
             }
 
             //Afficher une cellule de la bonne largeure
-            while(space<cellWidth){
-                printf(" ");
+            while(space<cellWidth-1){
+                printf("_");
                 space = space+1;
             }
             printf("|");

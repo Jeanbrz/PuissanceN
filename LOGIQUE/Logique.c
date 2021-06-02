@@ -8,7 +8,7 @@
 #include "Logique.h"
 
 /**
- * Fonction qui permet de gerer le bloc logique en appelant toutes les autres fonctions (addValue, deleteValue, Check, gameChoice, columnChoice).
+ * Fonction qui permet de gerer le bloc logique en appelant toutes les autres fonctions (addValue, remove_token, Check, gameChoice, columnChoice).
  * @param N_COLS : la dimension de la grille (nbr jetons + 2)
  * @param currentPlayer : joueur actuel (il vaut soit 1 ou 2)
  * @param turn : variable qui compte le nombre de tour de la partie
@@ -37,14 +37,14 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
         case 1:
 
             j = columnChoice(N_COLS, gameMode, currentPlayer);
-            isGameOver = addValue(j, N_COLS, grid, currentPlayer, turn, gameMode, jNotAllowed);
+            isGameOver = add_token(j, N_COLS, grid, currentPlayer, turn, gameMode, jNotAllowed);
 
             break;
 
         case 2 :
 
             j = columnChoice(N_COLS, gameMode, currentPlayer);
-            *jNotAllowed = deleteValue(j, N_COLS, grid, currentPlayer, turn, gameMode);
+            *jNotAllowed = remove_token(j, N_COLS, grid, currentPlayer, turn, gameMode);
             break;
 
         case 3 :
@@ -79,7 +79,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
  * @param currentPlayer : joueur actuel (il vaut soit 1 ou 2)
  * @return
  */
-bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode, int *jNotAllowed) {
+bool add_token(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode, int *jNotAllowed) {
 
     int i = N_COLS - 1, currentCell, *currentCellAdress;
     bool isWin;
@@ -104,8 +104,8 @@ bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn,
     }
 
     *(currentCellAdress) = currentPlayer;
-    displayGrid(N_COLS, gridToUpdate, 2, turn);
-    isWin = checkWin (i, j, N_COLS, gridToUpdate, currentPlayer);
+    show_grid(N_COLS, gridToUpdate, 2, turn);
+    isWin = check_winner(i, j, N_COLS, gridToUpdate, currentPlayer);
     *jNotAllowed=-1;
 
     return isWin;
@@ -117,7 +117,7 @@ bool addValue(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn,
  * @return
  */
 
-int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int gameMode) {
+int remove_token(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int gameMode) {
 
     int i = 0, currentCell, *currentCellAdress;
 
@@ -160,7 +160,7 @@ int deleteValue(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int tur
     }
 
     *(currentCellAdress) = 0;
-    displayGrid(N_COLS, gridToUpDown, 2, turn);
+    show_grid(N_COLS, gridToUpDown, 2, turn);
 
 
 return j;
@@ -174,7 +174,7 @@ return j;
  * @param j : la colonne du dernier pion ajouté
  * @return
  */
-bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
+bool check_winner (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
 
     bool test;
 
@@ -213,7 +213,7 @@ bool checkWin (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) {
    Cette fonction va d'une part compter sur la droite le nombre de pion identique de la valeur ajoutée dans addValue
    (currentPlayer). Si elle rencontre une valeur différente de currentPlayer, elle arrete de compter.
    Après ceci, elle se repositionne sur la valeur ajoutée et compte sur la gauche le nombre de pion identique
-   à la valeur ajoutée dans addValue (même opération). La fonction checkWin va vérifier si : compteurdroit + compteurgauche > NCOLS -2
+   à la valeur ajoutée dans addValue (même opération). La fonction check_winner va vérifier si : compteurdroit + compteurgauche > NCOLS -2
 
  * @param *rightAdress : pointeur qui pointe sur le compteur horizontal droit. Le compteur va être modifié
                         a chaque appel de la fonction
@@ -253,7 +253,7 @@ void checkHorizontaly(int i, int j, int N_COLS, int *gridCheck, int currentPlaye
 
 /**
  * Fonction qui modifie le compteur below qui permet de savoir le nombre de jeton identique
-   en dessous du dernier jeton ajouté. La fonction checkWin va vérifier si : compteur_bas > NCOLS -2
+   en dessous du dernier jeton ajouté. La fonction check_winner va vérifier si : compteur_bas > NCOLS -2
  * @param belowAdress : pointeur qui pointe sur le compteur vertical du bas (below). Le compteur va être modifié
                         a chaque appel de la fonction.
  */

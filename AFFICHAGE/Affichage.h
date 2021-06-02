@@ -11,4 +11,4 @@ int getFirstPlayer();
 
 int getNextPlayer(int currentPlayer);
 
-void displayGrid(int N, int *grid, int cellWidth, int turn);
+void show_grid(int N, int *grid, int cellWidth, int turn);
