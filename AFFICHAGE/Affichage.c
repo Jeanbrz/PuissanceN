@@ -66,7 +66,7 @@ int initUserInterface(){
 
 void playGame(bool isNewGame){
 
-    int N_COLS, cellWidth, currentPlayer, turn = 0, jNotAllowed = -1, gameMode;
+    int N_COLS, currentPlayer, turn = 0, jNotAllowed = -1, gameMode;
     int *jNotAllowedAdress = & jNotAllowed;
     bool isGameOver = false, isDraw = false;
 
@@ -103,26 +103,21 @@ void playGame(bool isNewGame){
 
         //Récupération de Turn :
         loadVariables(ftell(lastGame)+9, lastGame, &turn);
-        turn = turn - 1;
 
         //On recrée l'état de gridStatus enregistré :
         loadDataTable(N_COLS, gridAdress, lastGame);
     }
     fclose(lastGame);
 
-    // Cas où c'est à un humain de jouer
-    if (gameMode == 2 || currentPlayer == 1){
-        show_grid(N_COLS, gridAdress, turn);
-    }
-    printf("\n");
-
     while(!isGameOver && !isDraw){
-        turn = turn + 1;
+
+        show_grid(N_COLS, gridAdress, turn);
         isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
         isDraw = isDrawGame(N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
+        turn = turn + 1;
     }
-
+    show_grid(N_COLS, gridAdress, turn);
     if (replay()==1){
         initUserInterface();
     } else {

@@ -144,7 +144,6 @@ int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){
         } else {
             intChoice = rand()%2+1;
         }
-        printf("Choix machine : %d\n", intChoice);
     } else {
 
         if (deleteAllowed==false){

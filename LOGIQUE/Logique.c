@@ -24,15 +24,15 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
     FILE* lastGame;
 
     if (gameMode == 1 && currentPlayer== 2) {
-        printf("Ordinateur : \n");
+        printf("\nOrdinateur : ");
     } else {
         if(currentPlayer==1){
             color(12,0);
-            printf("Joueur %d a vous de jouer\n", currentPlayer);
+            printf("Joueur %d %c vous de jouer\n", currentPlayer, 133);
             color(15,0);
         } else {
             color(14,0);
-            printf("Joueur %d a vous de jouer\n", currentPlayer);
+            printf("Joueur %d %c vous de jouer\n", currentPlayer, 133);
             color(15,0);
         }
     }
@@ -71,7 +71,6 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
                 }
             }
 
-
             fclose(lastGame);
             isGameOver=true;
 
@@ -101,7 +100,7 @@ bool add_token(int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int g
         if ((i == 0 && currentCell != 0) || j==*jNotAllowed) {
 
             if(gameMode==2 || currentPlayer==1){
-                printf("veuillez resaisir une colonne\n");
+                printf("Veuillez resaisir une colonne\n");
             }
             j = columnChoice(N_COLS, gameMode, currentPlayer);
             i =  N_COLS;
@@ -113,9 +112,8 @@ bool add_token(int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int g
     }
 
     *(currentCellAdress) = currentPlayer;
-    show_grid(N_COLS, gridToUpdate, turn);
     isWin = check_winner(i, j, N_COLS, gridToUpdate, currentPlayer);
-    *jNotAllowed=-1;
+    *jNotAllowed = -1;
 
     return isWin;
 }
@@ -142,7 +140,7 @@ int remove_token(int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int
 
                 if(gameMode==2 || currentPlayer == 1) {
 
-                    printf("veuillez resaisir une colonne\n");
+                    printf("Veuillez resaisir une colonne\n");
                 }
 
                 j = columnChoice(N_COLS, gameMode, currentPlayer);
@@ -170,8 +168,6 @@ int remove_token(int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int
     }
 
     *(currentCellAdress) = 0;
-    show_grid(N_COLS, gridToUpDown, turn);
-
 
 return j;
 
@@ -210,7 +206,7 @@ bool check_winner (int i, int j, int N_COLS, int *gridCheck, int currentPlayer) 
 
     if (right+left+1>N_COLS-3 || below+1>N_COLS-3 || aboveRight>N_COLS-3 || aboveLeft>N_COLS-3) {
 
-        printf("bravo joueur %d, vous avez win !\n", currentPlayer);
+        printf("\nBravo joueur %d, vous avez gagn%c !!\n", currentPlayer, 130);
         test= true;
 
     } else {
