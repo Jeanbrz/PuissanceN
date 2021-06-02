@@ -9,3 +9,5 @@ int getPlayerNumber();
 int getTokenNumber(bool isNewGame, FILE * lastGame);
 
 int replay();
+
+void color(int t, int f);

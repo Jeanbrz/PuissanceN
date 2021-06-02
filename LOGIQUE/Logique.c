@@ -26,7 +26,15 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
     if (gameMode == 1 && currentPlayer== 2) {
         printf("Ordinateur : \n");
     } else {
-        printf("Joueur %d a vous de jouer\n", currentPlayer);
+        if(currentPlayer==1){
+            color(12,0);
+            printf("Joueur %d a vous de jouer\n", currentPlayer);
+            color(15,0);
+        } else {
+            color(14,0);
+            printf("Joueur %d a vous de jouer\n", currentPlayer);
+            color(15,0);
+        }
     }
     isDeleteAllowed = deleteAllowed(N_COLS, grid, currentPlayer);
 

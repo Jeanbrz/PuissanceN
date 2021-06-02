@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "time.h"
+#include <windows.h>
 
 #include "Affichage.h"
 #include "../DONNEES/Base_Donnee.h"
@@ -12,16 +13,27 @@
 /**
  * Affiche le menu d'options
  */
+
+void color(int t,int f)
+{
+    HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(H,f*16+t);
+}
+
 int displayMenu(){
 
     char menuChoice[] = "";
     bool isValid = true;
 
-    printf("Bienvenue au puissance N\n\n"
-           "1-Charger la derniere partie\n"
-           "2-Lancer une nouvelle partie\n"
-           "3-Quitter\n"
-           "Que voulez vous faire :");
+    color(12,0);
+    printf("\nBienvenue au puissance N\n\n");
+    color(14,0);
+    printf("1 - Charger la derniere partie\n"
+           "2 - Lancer une nouvelle partie\n"
+           "3 - Quitter\n");
+    color(12,0);
+      printf("\nQue voulez vous faire :");
+    color (15,0);
 
     scanf("%s", menuChoice);
 
@@ -34,9 +46,9 @@ int displayMenu(){
 
     while(isValid != true){
         printf("\nERREUR - Bienvenue au puissance N\n\n"
-               "1-Charger la derniere partie\n"
-               "2-Lancer une nouvelle partie\n"
-               "3-Quitter\n"
+               "1 - Charger la derniere partie\n"
+               "2 - Lancer une nouvelle partie\n"
+               "3 - Quitter\n"
                "Que voulez vous faire :");
 
         scanf("%s", menuChoice);
@@ -253,3 +265,5 @@ int replay(){
 
 
 }
+
+

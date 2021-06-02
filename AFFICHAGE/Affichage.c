@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <windows.h>
 
 #include "Affichage.h"
 #include "../DONNEES/Base_Donnee.h"
@@ -52,7 +53,7 @@ int initUserInterface(){
 
         case 3 : //On souhaite quitter le programme
 
-            printf("\nA bient%ct pour de nouvelle avantures %c! \n", 147, 2);
+            printf("\nA bient%ct pour de nouvelle aventures %c! \n", 147, 2);
 
             return 0;
 
@@ -137,6 +138,7 @@ void show_grid(int N_COLS, int *grid, int turn){
     int space;
 
     printf("\n Tour %d\n", turn+1);
+
     for (i=0; i < N_COLS; i++){
 
         for(j=0; j < N_COLS; j++){
@@ -151,10 +153,14 @@ void show_grid(int N_COLS, int *grid, int turn){
                 printf("_");
             }
             if(currentCell == 1){
+                color(12,0);
                 printf("X");
+                color(15,0);
             }
             if(currentCell == 2){
+                color(14,0);
                 printf("O");
+                color(15,0);
             }
 
             printf(" ");
@@ -186,8 +192,10 @@ int getFirstPlayer() {
 
     srand(time(NULL));
 
+    color (1,0);
     printf("\n........TIRAGE AU SORT.........\n");
     printf("...............................\n");
+    color (15,0);
 
     alea = rand()%2 + 1;
 
