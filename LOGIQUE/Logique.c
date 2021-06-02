@@ -36,15 +36,14 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
 
         case 1:
 
-            j = columnChoice(N_COLS, gameMode, currentPlayer);
-            isGameOver = add_token(j, N_COLS, grid, currentPlayer, turn, gameMode, jNotAllowed);
+            isGameOver = add_token(N_COLS, grid, currentPlayer, turn, gameMode, jNotAllowed);
 
             break;
 
         case 2 :
 
-            j = columnChoice(N_COLS, gameMode, currentPlayer);
-            *jNotAllowed = remove_token(j, N_COLS, grid, currentPlayer, turn, gameMode);
+
+            *jNotAllowed = remove_token(N_COLS, grid, currentPlayer, turn, gameMode);
             break;
 
         case 3 :
@@ -80,10 +79,11 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
  * @param currentPlayer : joueur actuel (il vaut soit 1 ou 2)
  * @return
  */
-bool add_token(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode, int *jNotAllowed) {
+bool add_token(int N_COLS, int *gridToUpdate, int currentPlayer, int turn, int gameMode, int *jNotAllowed) {
 
-    int i = N_COLS - 1, currentCell, *currentCellAdress;
+    int i = N_COLS - 1, currentCell, *currentCellAdress, j;
     bool isWin;
+    j = columnChoice(N_COLS, gameMode, currentPlayer);
 
     currentCellAdress = gridToUpdate + i * N_COLS + j;
     currentCell = *(currentCellAdress);
@@ -118,9 +118,10 @@ bool add_token(int j, int N_COLS, int *gridToUpdate, int currentPlayer, int turn
  * @return
  */
 
-int remove_token(int j, int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int gameMode) {
+int remove_token(int N_COLS, int *gridToUpDown, int currentPlayer, int turn, int gameMode) {
 
-    int i = 0, currentCell, *currentCellAdress;
+    int i = 0, currentCell, *currentCellAdress,j;
+    j = columnChoice(N_COLS, gameMode, currentPlayer);
 
     currentCellAdress = gridToUpDown + i * N_COLS + j;
     currentCell = *(currentCellAdress);
