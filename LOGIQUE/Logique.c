@@ -60,7 +60,7 @@ bool play(int currentPlayer, int N_COLS, int *grid, int turn, int gameMode, int 
             fprintf(lastGame, "N_COLS : %d\n", N_COLS);
             fprintf(lastGame, "gameMode : %d\n", gameMode);
             fprintf(lastGame, "currentPlayer : %d\n", currentPlayer);
-            fprintf(lastGame, "turn : %d\n", turn);
+            fprintf(lastGame, "turn : %d\n", turn-1);
             fputs("gridStatus : ", lastGame);
             for (int i=0; i<N_COLS; i++) {
 

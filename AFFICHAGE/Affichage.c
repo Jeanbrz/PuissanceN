@@ -1,9 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
-#include <windows.h>
 
 #include "Affichage.h"
 #include "../DONNEES/Base_Donnee.h"
@@ -67,7 +65,7 @@ int initUserInterface(){
 
 void playGame(bool isNewGame){
 
-    int N_COLS, currentPlayer, turn = 0, jNotAllowed = -1, gameMode;
+    int N_COLS, currentPlayer, turn = -1, jNotAllowed = -1, gameMode;
     int *jNotAllowedAdress = & jNotAllowed;
     bool isGameOver = false, isDraw = false;
 
@@ -112,8 +110,8 @@ void playGame(bool isNewGame){
 
     while(!isGameOver && !isDraw){
 
-        show_grid(N_COLS, gridAdress, turn);
         turn = turn + 1;
+        show_grid(N_COLS, gridAdress, turn);
         isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
         isDraw = isDrawGame(N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
@@ -131,8 +129,6 @@ void playGame(bool isNewGame){
 void show_grid(int N_COLS, int *grid, int turn){
 
     int i, j, currentCell;
-
-    int space;
 
     printf("\n Tour %d\n", turn+1);
 
