@@ -12,13 +12,16 @@
  * @return
  */
 int initDataTable(int N_COLS, int *table_donnees){
+
     int i, j;
+    int *currentCellAdress;
+
     for(i=0; i < N_COLS; i++){
         for(j=0; j < N_COLS ; j++) {
             // Si on est par exemple à la 4e ligne et 2e colonne,
             // l'adresse de la cellule est égal à :
             // table_donnees + 4 * 6 + 2
-            int *currentCellAdress = table_donnees + i * (N_COLS) + j;
+            currentCellAdress = table_donnees + i * (N_COLS) + j;
             *(currentCellAdress) = 0;
         }
     }

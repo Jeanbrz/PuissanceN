@@ -61,6 +61,7 @@ int initUserInterface(){
 
     //Lancement d'une partie si choix 1 ou 2 avec isNewGame en paramètre définit dans le switch-case
     playGame(isNewGame);
+    return 1;
 }
 
 
@@ -112,12 +113,13 @@ void playGame(bool isNewGame){
     while(!isGameOver && !isDraw){
 
         show_grid(N_COLS, gridAdress, turn);
+        turn = turn + 1;
         isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
         isDraw = isDrawGame(N_COLS, gridAdress);
         currentPlayer = getNextPlayer(currentPlayer);
-        turn = turn + 1;
     }
     show_grid(N_COLS, gridAdress, turn);
+    free(lastGame);
     if (replay()==1){
         initUserInterface();
     } else {
