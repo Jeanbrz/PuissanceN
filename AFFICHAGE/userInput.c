@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "time.h"
-#include <windows.h>
 
 #include "Affichage.h"
 #include "../DONNEES/Base_Donnee.h"
@@ -11,15 +10,9 @@
 #include "Affichage.h"
 
 /**
- * Affiche le menu d'options
+ * Affiche le menu de choix
+ * @return
  */
-
-void color(int t,int f)
-{
-    HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(H,f*16+t);
-}
-
 int displayMenu(){
 
     char menuChoice[] = "";
@@ -32,19 +25,18 @@ int displayMenu(){
            "2 - Lancer une nouvelle partie\n"
            "3 - Quitter\n");
     color(12,0);
-      printf("\nQue voulez vous faire :");
-    color (15,0);
-
+    printf("\nQue voulez vous faire :");
+    color(15,0);
     scanf("%s", menuChoice);
 
     //Vérrification du caractère numérique et de la cohérence de la saisie :
     isValid = isNumeric(menuChoice);
-
     if (atoi(menuChoice) < 1 || atoi(menuChoice) > 3){
+
         isValid = false;
     }
-
     while(isValid != true){
+
         printf("\nERREUR - Bienvenue au puissance N\n\n"
                "1 - Charger la derniere partie\n"
                "2 - Lancer une nouvelle partie\n"
@@ -53,8 +45,8 @@ int displayMenu(){
 
         scanf("%s", menuChoice);
         isValid = isNumeric(menuChoice);
-
         if (atoi(menuChoice) < 1 || atoi(menuChoice) > 3){
+
             isValid =false;
         }
     }
@@ -62,10 +54,13 @@ int displayMenu(){
     return atoi(menuChoice);
 }
 
-
+/**
+ * Connaitre le nombre de joueurs
+ * @return
+ */
 int getPlayerNumber(){
 
-    char playerNumber[]="";
+    char playerNumber[]="1";
     bool isValid;
 
     printf("\nNombre de joueur (1 ou 2) : ");
@@ -74,60 +69,30 @@ int getPlayerNumber(){
     //Vérrification du caractère numérique et de la cohérence de la saisie :
     isValid = isNumeric(playerNumber);
     if(atoi(playerNumber)<1 || atoi(playerNumber)>2){
+
         isValid = false;
     }
     while(isValid != true){
+
         printf("\nERREUR - Nombre de joueur (1 ou 2) : ");
         scanf("%s", playerNumber);
-
         isValid = isNumeric(playerNumber);
         if (atoi(playerNumber) < 1 || atoi(playerNumber) > 2){
+
             isValid =false;
         }
     }
+
     return atoi(playerNumber);
 }
 
-int getTokenNumber(bool isNewGame, FILE * lastGame){
-
-    char tokenNumber[] = "";
-    int N_COLS;
-    bool isValid;
-
-    if (isNewGame == true){
-
-        //Saisie du nombre de jettons :
-        printf("\nSaisir le nombre de jetons pour jouer :\n");
-        scanf("%s", tokenNumber);
-
-        //Vérifications de la saisie :
-        N_COLS = atoi(tokenNumber);
-        isValid = isNumeric(tokenNumber);
-
-        if(N_COLS<3){
-            isValid = false;
-        }
-        while(isValid!=true){
-            printf("ERREUR - Saisir le nombre de jetons (>2) ?\n");
-            scanf("%s", tokenNumber);
-            N_COLS = atoi(tokenNumber);
-            isValid = isNumeric(tokenNumber);
-            if(N_COLS<3){
-                isValid = false;
-            }
-        }
-        // On crée une variable pour stocker le nombre de colonnes/lignes, désormais on utilisera uniquement elle
-        N_COLS = N_COLS+2;
-
-    } else {
-
-        loadVariables(9, lastGame, &N_COLS);
-
-    }
-
-    return N_COLS;
-}
-
+/**
+ * Connaître le choix du joueur concernant l'action de jeu
+ * @param gameMode
+ * @param currentPlayer
+ * @param deleteAllowed
+ * @return
+ */
 int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){
 
     char choice[]="";
@@ -137,65 +102,74 @@ int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){
 
     if(gameMode == 1 && currentPlayer == 2){
 
-        //Cas où c'est à l'ordinateur de jouer
-
+        //Cas où c'est à l'ordinateur de jouer :
         if (deleteAllowed==false){
+
             intChoice = 1;
+
         } else {
+
             intChoice = rand()%2+1;
         }
+
     } else {
 
         if (deleteAllowed==false){
+
+            //Cas où c'est à un humain de joueur et que la suppression de jeton n'est pas possible
             printf("Que voulez-vous faire ?\n"
-                   "1 : Poser un jetton\n"
+                   "1 : Poser un jeton\n"
                    "3 : Sauvegarder\n");
             scanf("%s", choice);
 
-            //Verrification de la saisie
+            //Vérification de la saisie
             intChoice = atoi(choice);
             isValid = isNumeric(choice);
             if (intChoice<1 || intChoice>3 || intChoice ==2 ) {
+
                 isValid = false;
             }
             while(isValid!=true){
+
                 printf("ERREUR - Que voulez-vous faire ?\n"
-                       "1 : Poser un jetton\n"
+                       "1 : Poser un jeton\n"
                        "3 : Sauvegarder\n");
                 scanf("%s", choice);
-
                 intChoice = atoi(choice);
                 isValid = isNumeric(choice);
                 if (intChoice<1 || intChoice>3 || intChoice ==2 ) {
+
                     isValid = false;
                 }
             }
+
         }else {
 
+            //Humain qui joue et suppression possible :
             printf("Que voulez-vous faire ?\n"
-                   "1 : Poser un jetton\n"
-                   "2 : Enlever un jetton\n"
+                   "1 : Poser un jeton\n"
+                   "2 : Enlever un jeton\n"
                    "3 : Sauvegarder\n");
             scanf("%s", choice);
 
-            //Vérifications de la saisie :
+            //Vérification de la saisie :
             intChoice = atoi(choice);
             isValid = isNumeric(choice);
             if (intChoice<1 || intChoice>3){
+
                 isValid = false;
             }
-
             while(isValid!=true){
-                printf("Que voulez-vous faire ?\n"
-                       "1 : Poser un jetton\n"
-                       "2 : Enlever un jetton\n"
+
+                printf("ERREUR - Que voulez-vous faire ?\n"
+                       "1 : Poser un jeton\n"
+                       "2 : Enlever un jeton\n"
                        "3 : Sauvegarder\n");
                 scanf("%s", choice);
-
-                //Vérifications de la saisie :
                 intChoice = atoi(choice);
                 isValid = isNumeric(choice);
                 if (intChoice<1 || intChoice>3){
+
                     isValid = false;
                 }
             }
@@ -205,7 +179,9 @@ int gameChoice(int gameMode, int currentPlayer, bool deleteAllowed){
     return intChoice;
 }
 
-
+/**
+ * Connaître le choix de la colonne dans laquelle le joueur veut poser un jeton
+ */
 int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
 
     int rep;
@@ -213,30 +189,36 @@ int columnChoice(int N_COLS, int gameMode, int currentPlayer) {
 
     if (gameMode == 1 && currentPlayer == 2){
 
+        //Ordinateur qui joue
         rep = rand()%N_COLS+1;
 
     } else {
 
+        //Humain qui joue
         printf("Dans quelle colonne voulez vous jouer ?\n");
         scanf("%d", &rep);
 
         while (rep <= 0 || rep > (N_COLS)) {
-            printf("Veuillez saisir une valeur comprise entre 1 et %d \n", N_COLS);
+
+            printf("ERREUR - Veuillez saisir une valeur comprise entre 1 et %d \n", N_COLS);
             scanf("%d", &rep);
         }
     }
-
     rep = rep-1;
+
     return rep;
 }
 
+/**
+ * Connaître si le joueur souhaite rejouer
+ * @return
+ */
 int replay(){
 
     char answer[] = "";
     int answerInt;
     bool isValid;
 
-    //Saisie du nombre de jettons :
     printf("\nVoulez-vous rejouer ? \n"
            "1 : Oui\n"
            "2 : Non\n");
@@ -246,23 +228,22 @@ int replay(){
     isValid = isNumeric(answer);
     answerInt = atoi(answer);
     if(answerInt<1 || answerInt>2){
+
         isValid = false;
     }
     while(isValid!=true){
+
         printf("\nERREUR - Voulez-vous rejouer ? \n"
                "1 : Oui\n"
                "2 : Non\n");
         scanf("%s", answer);
-
         isValid = isNumeric(answer);
         answerInt = atoi(answer);
         if(answerInt<1 || answerInt>2){
+
             isValid = false;
         }
     }
+
     return answerInt;
-
-
 }
-
-

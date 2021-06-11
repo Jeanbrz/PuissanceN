@@ -1,60 +1,59 @@
-//
-// Created by jeanb on 11/05/2021.
-//
-
 #include "Base_Donnee.h"
 #include "../LOGIQUE/Logique.h"
 #include "../AFFICHAGE/Affichage.h"
 #include "../UTILS/Utils.h"
+
 /**
- *
+ * Initialise à 0 les case du tableau de données
  * @param N
- * @return
+ * @param table_donnees
  */
-int initDataTable(int N_COLS, int *table_donnees){
+void initDataTable(int N, int **table_donnees){
 
     int i, j;
-    int *currentCellAdress;
 
-    for(i=0; i < N_COLS; i++){
-        for(j=0; j < N_COLS ; j++) {
-            // Si on est par exemple à la 4e ligne et 2e colonne,
-            // l'adresse de la cellule est égal à :
-            // table_donnees + 4 * 6 + 2
-            currentCellAdress = table_donnees + i * (N_COLS) + j;
-            *(currentCellAdress) = 0;
+    for(i=0; i < N; i++){
+
+        for(j=0; j < N; j++) {
+
+            * (table_donnees[i]+j) = 0;
         }
     }
-
-    return 0;
 }
 
-
-void loadDataTable (int N_COLS, int* table_donnees, FILE* lastGame){
+/**
+ * Récupère les valeurs du tableau de donnée de la dernière partie enregistrée
+ * @param N_COLS
+ * @param table_donnees
+ * @param lastGame
+ */
+void loadDataTable (int N_COLS, int **table_donnees, FILE* lastGame){
 
     int i, j, cellValue=0, position;
 
+    //Déterminer la position à laquelle le cureseur devra être dans le fichier pour lire la première donnée
     position = ftell(lastGame);
     position = position + 15;
 
     for(i=0; i < N_COLS; i++){
+
         for(j=0; j < N_COLS ; j++) {
 
-            fseek(lastGame, position, SEEK_SET);
+            fseek(lastGame, position, SEEK_SET); //Positionne le curseur devant la valeur à lire
             fscanf(lastGame, "%d", &cellValue);
             position = ftell(lastGame);
 
-            // Si on est par exemple à la 4e ligne et 2e colonne,
-            // l'adresse de la cellule est égal à :
-            // table_donnees + 4 * 6 + 2
-            int *currentCellAdress = table_donnees + i * (N_COLS) + j;
-            *(currentCellAdress) = cellValue;
-
+            *(table_donnees[i]+j) = cellValue;
         }
     }
 }
 
-
+/**
+ * Récupérer la valeur d'une variable enregistrée
+ * @param position
+ * @param lastGame
+ * @param variable
+ */
 void loadVariables(long position, FILE* lastGame, int * variable){
 
     //On place le curseur juste devant la valeur de la variable dans le fichier :
@@ -62,5 +61,4 @@ void loadVariables(long position, FILE* lastGame, int * variable){
 
     //On récupère la valeur souhaitée :
     fscanf(lastGame, "%d", variable);
-
 }

@@ -13,7 +13,10 @@
 #define PLAYER_ONE 1
 #define PLAYER_TWO 2
 
-
+/**
+ *
+ * @return
+ */
 int initUserInterface(){
 
     int answer;
@@ -46,7 +49,6 @@ int initUserInterface(){
         case 2 : //On souhaite lancer une nouvelle partie
 
             isNewGame = true;
-
              break;
 
         case 3 : //On souhaite quitter le programme
@@ -54,115 +56,146 @@ int initUserInterface(){
             printf("\nA bient%ct pour de nouvelle aventures %c! \n", 147, 2);
 
             return 0;
-
     }
 
     //Lancement d'une partie si choix 1 ou 2 avec isNewGame en paramètre définit dans le switch-case
     playGame(isNewGame);
+
     return 1;
 }
 
+/**
+ *
+ * @param isNewGame
+ */
+void playGame(bool isNewGame) {
 
-void playGame(bool isNewGame){
-
-    int N_COLS, currentPlayer, turn = -1, jNotAllowed = -1, gameMode;
-    int *jNotAllowedAdress = & jNotAllowed;
+    int N_COLS = 5, currentPlayer, turn = 0, jNotAllowed = -1, gameMode, i = 0, j = 0;
+    int *jNotAllowedAdress = &jNotAllowed;
     bool isGameOver = false, isDraw = false;
 
-    FILE* lastGame;
+    int **gridStatus;
+
+    FILE *lastGame;
     lastGame = fopen("saveLastGame.txt", "r");
 
     //On récupère la valeur de N+2 pour dimensionner la grille
-    N_COLS = getTokenNumber(isNewGame, lastGame);
+    if (isNewGame == true) {
+
+        printf("\nSaisir le nombre de jetons\n");
+        scanf("%d", &N_COLS);
+
+        while (N_COLS<3 || N_COLS > 27){
+
+            printf("ERREUR - Saisir le nombre de jetons (2<N<28)\n");
+            scanf("%d", &N_COLS);
+        }
+
+        N_COLS=N_COLS+2;
+
+    } else {
+
+        loadVariables(9,lastGame,&N_COLS);
+    }
 
     // On crée un tableau d'entiers de dim N+2 * N+2 qui représentera l'état de la grille
-    int ** gridStatus = malloc(N_COLS * sizeof(int *));
-    for (int i =0; i<N_COLS; i++){
-        gridStatus[i] = malloc(N_COLS * sizeof(int));
-    }
-    // On crée un pointeur sur le premier élément du tableau, il s'agit de l'élément de départ
-    // que nous donnons à nos fonctions
-    int *gridAdress = &gridStatus[0][0];
+    gridStatus = malloc(N_COLS * sizeof(int *));
+    for (i = 0; i < N_COLS; i++){
 
+       gridStatus[i] = malloc(N_COLS * sizeof(int));
+    }
+
+    //On demande ou on charge les valeurs des varriables de jeu :
     if (isNewGame == true){
 
         gameMode = getPlayerNumber();
         currentPlayer = getFirstPlayer();
-
-        //Initailisation à 0 des cases de gridStatus
-        initDataTable(N_COLS, gridAdress);
+        initDataTable(N_COLS, gridStatus);
 
     } else { //On récupère toutes les données du fichier les unes apès les autres
 
         //On récupère lastGame :
         loadVariables(ftell(lastGame)+13, lastGame, &gameMode);
-
         //Récupération de CurrentPlayer :
         loadVariables(ftell(lastGame)+18, lastGame, &currentPlayer);
-
         //Récupération de Turn :
         loadVariables(ftell(lastGame)+9, lastGame, &turn);
-
+        turn = turn-1;
         //On recrée l'état de gridStatus enregistré :
-        loadDataTable(N_COLS, gridAdress, lastGame);
+        loadDataTable(N_COLS, gridStatus, lastGame);
     }
     fclose(lastGame);
 
+    //On rentre dans une boucle qui permet de joueur tant qu'une issues n'est pas validée
     while(!isGameOver && !isDraw){
 
         turn = turn + 1;
-        show_grid(N_COLS, gridAdress, turn);
-        isGameOver = play(currentPlayer, N_COLS, gridAdress, turn, gameMode, jNotAllowedAdress);
-        isDraw = isDrawGame(N_COLS, gridAdress);
+        show_grid(N_COLS, gridStatus, turn);
+        isGameOver = play(currentPlayer, N_COLS, gridStatus, turn, gameMode, jNotAllowedAdress);
+        isDraw = isDrawGame(N_COLS, gridStatus);
         currentPlayer = getNextPlayer(currentPlayer);
     }
-    show_grid(N_COLS, gridAdress, turn);
-    free(lastGame);
+
+    show_grid(N_COLS, gridStatus, turn);
+
+    //On libère la mémoir que l'on a allouée précédement :
+    free(gridStatus);
+
     if (replay()==1){
+
         initUserInterface();
+
     } else {
+
         printf("A bient%ct pour de nouvelles aventures", 147);
     }
 }
 
-
-void show_grid(int N_COLS, int *grid, int turn){
+/**
+ * Affiche la grille de jeu
+ * @param N_COLS
+ * @param grid Tableau de donnée qui est traduit par la fonction
+ * @param turn
+ */
+void show_grid(int N_COLS, int **grid, int turn){
 
     int i, j, currentCell;
-
-    printf("\n Tour %d\n", turn+1);
+    
+    printf("\n Tour %d\n", turn);
 
     for (i=0; i < N_COLS; i++){
 
         for(j=0; j < N_COLS; j++){
 
-            if (j == 0){
-                printf("|");
-            }
-            printf(" ");
+          //On récupère la valeur numérique de la case visée dans la base de donnée
+          currentCell = *(grid[i] + j);
 
-            currentCell = *(grid + i * (N_COLS) + j);
-            if(currentCell == 0){
-                printf("_");
-            }
-            if(currentCell == 1){
-                color(12,0);
-                printf("X");
-                color(15,0);
-            }
-            if(currentCell == 2){
-                color(14,0);
-                printf("O");
-                color(15,0);
-            }
+          //On affiche le caractère souhaité en fonction de la valeur lue
+          if (j == 0){
+              printf("|");
+          }
+          printf(" ");
 
-            printf(" ");
-            printf("|");
+          if(currentCell == 0){
+              printf("_");
+          }
+          if(currentCell == 1){
+              color(12,0);
+              printf("X");
+              color(15,0);
+          }
+          if(currentCell == 2){
+              color(14,0);
+              printf("O");
+              color(15,0);
+          }
+          printf(" ");
+          printf("|");
         }
         printf("\n");
     }
 
-
+    //On affiche les numéros de colonne
     for (i=0; i<N_COLS; i++){
 
         if (i>=10){
@@ -173,36 +206,35 @@ void show_grid(int N_COLS, int *grid, int turn){
         printf("%d", i+1);
         printf(" ");
 
-
     }
     printf("\n");
 }
 
-
+/**
+ * Tire au sort le premier joueur
+ * @return
+ */
 int getFirstPlayer() {
 
-    int alea = 0, player = 0;
-
+    int alea = 0, player = 1;
     srand(time(NULL));
-
-    color (1,0);
+    
     printf("\n........TIRAGE AU SORT.........\n");
     printf("...............................\n");
-    color (15,0);
 
     alea = rand()%2 + 1;
-
-
-    if (alea == 1){
-        player = PLAYER_ONE;
-    } else {
-        player = PLAYER_TWO;
-    }
-
+    player = alea;
+    
     return player;
 }
 
+/**
+ * Pemret de connaitre le joueur suivant
+ * @param currentPlayer
+ * @return
+ */
 int getNextPlayer(int currentPlayer) {
+
     int nextPlayer;
 
     if (currentPlayer == PLAYER_ONE) {
@@ -213,8 +245,3 @@ int getNextPlayer(int currentPlayer) {
 
     return nextPlayer;
 }
-
-
-
-
-
