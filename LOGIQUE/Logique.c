@@ -201,7 +201,7 @@ bool check_winner (int i, int j, int N_COLS, int **gridCheck, int currentPlayer)
     int *belowAdress=&below;
 
     checkVertically(i, j, N_COLS, gridCheck, currentPlayer, belowAdress);
-    printf("%d", below);
+
     int aboveRight=0, aboveLeft=0;
     int *aboveRightAdress=&aboveRight, *aboveLeftAdress=&aboveLeft;
 
@@ -283,8 +283,8 @@ void checkVertically(int i, int j, int N_COLS, int **gridCheck, int currentPlaye
     if (iCell==N_COLS-1 && currentCell==currentPlayer){
         currentBelow=currentBelow+1;
     }
-    
     *belowAdress=currentBelow;
+     
 }
 
 /**
