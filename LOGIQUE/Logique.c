@@ -351,7 +351,7 @@ bool deleteAllowed(int N_COLS, int **gridCheck, int currentPlayer) {
     for (j = 0; j < N_COLS ; j++) {
 
         currentCell = *(gridCheck[i]+j);
-        
+         
         while (currentCell == 0 && i < N_COLS) {
             
             i = i + 1;
