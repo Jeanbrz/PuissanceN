@@ -284,7 +284,7 @@ void checkVertically(int i, int j, int N_COLS, int **gridCheck, int currentPlaye
         currentBelow=currentBelow+1;
     }
     *belowAdress=currentBelow;
-     
+
 }
 
 /**
